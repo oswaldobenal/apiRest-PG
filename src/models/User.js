@@ -49,6 +49,13 @@ export const User = sequelize.define('user', {
 })
 User.belongsToMany(Rol,{through:"user_rol"})
 Rol.belongsToMany(User,{through:"user_rol"})
-User.hasMany(Pets);
-Pets.hasOne(User);
+User.hasMany(Pets, {
+  foreignKey: "userId",
+  sourceKey: "id",
+  });
+  
+  Pets.belongsTo(User, {
+  foreignKey: "userId",
+  targetId: "id",
+  });
 
