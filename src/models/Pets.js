@@ -11,47 +11,38 @@ export const Pets = sequelize.define('pets', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
-  race:{
+  race: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
-  sexo:{
+  sexo: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
-  city:{
+  city: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
-  size:{
+  size: {
     type: DataTypes.FLOAT,
     allowNull: false,
-    unique: true,
-    
   },
-  color:{
+  color: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
-  health:{
+  health: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
-  description:{
+  description: {
     type: DataTypes.TEXT,
     allowNull: false,
-    unique: true,
+  },
+  image: {
+    type: DataTypes.TEXT,
   }
-
-
-
 }, {
-  timestamps: false
+  timestamps: false,
 })
