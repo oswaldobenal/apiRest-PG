@@ -47,6 +47,7 @@ export const User = sequelize.define(
     timestamps: false,
   }
 );
+
 User.hasMany(Pets, {
   foreignKey: "userId",
   sourceKey: "id",

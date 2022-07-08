@@ -10,7 +10,7 @@ const router = Router();
     body('email',"Wrong email format").trim().isEmail().normalizeEmail(),
     body('password').trim().notEmpty().withMessage('password is required'),
   ], createUser);
-  router.get("/user",getUser);
+  router.get("/us/all",getUser);
   router.get("/user/:id",getDetailUser);
   router.put("/user/:id",[
     body('name').trim().notEmpty().withMessage('name is required'),
