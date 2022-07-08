@@ -14,6 +14,8 @@ app.use(morgan('dev'));
 app.use("/api/v1.0", welcome);
 app.use("/api/v1.0", countries);
 app.use("/api/v1.0", pets);
+
 app.use("/api/v1.0", user);
+
 
 export default app;

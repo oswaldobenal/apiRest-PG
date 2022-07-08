@@ -14,17 +14,16 @@ export const User = sequelize.define('user', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    
+
   },
   lastName: {
     type: DataTypes.STRING,
     allowNull: false,
-    
+
   },
   email:{
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   password:{
     type: DataTypes.STRING,
@@ -38,6 +37,7 @@ export const User = sequelize.define('user', {
   active:{
     type:DataTypes.BOOLEAN,
     allowNull: false,
+
     defaultValue: true
   },
  donaciones:{
@@ -45,6 +45,8 @@ export const User = sequelize.define('user', {
   allowNull:false,
   defaultValue: 0
  }
+
+  }
 }, {
   timestamps: false
 })
