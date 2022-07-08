@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
+import { City } from "./City.js";
+import { Country } from "./Country.js";
 import { Pets } from "./Pets.js";
 
 export const User = sequelize.define(
@@ -57,3 +59,22 @@ Pets.belongsTo(User, {
   foreignKey: "userId",
   targetId: "id",
 });
+Country.hasMany(User, {
+  foreignKey: "countryId",
+  sourceKey: "id",
+});
+User.belongsTo(Country, {
+  foreignKey: "countryId",
+  targetId: "id",
+});
+City.hasMany(User, {
+  foreignKey: "cityId",
+  sourceKey: "id",
+});
+User.belongsTo(City, {
+  foreignKey: "cityId",
+  targetId: "id",
+});
+
+
+
