@@ -6,6 +6,8 @@ import countries from "./src/routes/country.routes.js";
 import welcome from "./src/routes/routes.js";
 
 
+
+
 import cities from "./src/routes/cities.routes.js";
 //middleware
 app.use(express.json());
