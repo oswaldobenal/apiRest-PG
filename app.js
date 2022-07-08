@@ -7,6 +7,7 @@ import countries from "./src/routes/country.routes.js"
 import pets from "./src/routes/pets.routes.js"
 import welcome from "./src/routes/routes.js"
 import user from "./src/routes/user.routes.js"
+import login from "./src/routes/login.routes.js"
 //middleware
 app.use(express.json());
 app.use(morgan('dev'));
@@ -16,6 +17,7 @@ app.use("/api/v1.0", countries);
 app.use("/api/v1.0", pets);
 
 app.use("/api/v1.0", user);
+app.use("/api/v1.0", login)
 
 
 export default app;

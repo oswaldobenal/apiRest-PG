@@ -47,7 +47,7 @@ export const User = sequelize.define('user', {
  }
 
   }
-}, {
+, {
   timestamps: false
 })
 User.hasMany(Pets, {
