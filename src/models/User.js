@@ -47,8 +47,7 @@ export const User = sequelize.define(
       defaultValue: "",
     },
     phone: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING
     },
     document: {
       type: DataTypes.STRING,

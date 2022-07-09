@@ -1,7 +1,5 @@
 import { Router } from "express";
 //importing controllers from src/controllers
-import { welcome } from "../controllers/userController.js";
-import pets from "./pets.routes.js";
 /*Important !!!! 
 ** if the console shows the code: 
 'ERR_MODULE_NOT_FOUND' 
@@ -11,9 +9,19 @@ import { userLogin } from "../controllers/userController.js" is correct
 import { userLogin } from "../controllers/userController" is incorrect
 
  */
+
+import countries from "./country.routes.js";
+import pets from "./pets.routes.js";
+import user from "./user.routes.js";
+import cities from "./cities.routes.js";
+import auth from "./auth.routes.js";
+
 const router = Router();
 
-router.get("/welcome", welcome )
+router.use('/countries', countries);
+router.use('/cities', cities);
+router.use('/user', user);
 router.use('/pets', pets);
+router.use('/auth', auth);
 
 export default router;
