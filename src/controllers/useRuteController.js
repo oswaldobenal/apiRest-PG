@@ -18,41 +18,59 @@ export const createUser = async (req, res) => {
     address,
     phone,
     document,
+    role,
   } = req.body;
-  const country = await Country.findByPk(countryId);
-  const city = await City.findByPk(cityId);
-  console.log(country);
-  console.log(city);
   try {
-    //Hash of password.
-    const passwordHash = await encrypt(password);
-    console.log(passwordHash);
-    const usersCountry = await User.create({
-      name,
-      lastName,
-      password: passwordHash,
-      email,
-      address,
-      phone,
+    const user = await User.findOne({
+      where: {
+        email,
+      },
     });
-    //password set in undefined for security
-    usersCountry.set("password", undefined, { strict: false });
 
-    usersCountry.setCountry(country);
-    usersCountry.setCity(city);
-    return res.json({
-      message:
-        "User Created Successfully!, If you solicited a verification of fundation the state is pending",
-    });
+    if (user === null) {
+      const country = await Country.findByPk(countryId);
+      const city = await City.findByPk(cityId);
+
+      //Hash of password.
+      const passwordHash = await encrypt(password);
+      const usersCountry = await User.create({
+        name,
+        lastName,
+        password: passwordHash,
+        email,
+        address,
+        phone,
+      });
+      //password set in undefined for security
+      usersCountry.set("password", undefined, { strict: false });
+
+      usersCountry.setCountry(country);
+      usersCountry.setCity(city);
+      return res.json({
+        message:
+          "User Created Successfully!, If you solicited a verification of fundation the state is pending",
+      });
+    }
+    return res.status(400).send({ Error: "email already exist!!" });
+
+    // const data = {
+    //   token: await tokenSing(usersCountry),
+    //   user: usersCountry,
+    // };
+    // return res.send(data);
   } catch (error) {
-    return res.status(500).json({ msg: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
 /// GET USER
 export const getUser = async (req, res) => {
   try {
-    let users = await User.findAll();
+    let users = await User.findAll({
+      attributes: {
+        exclude: ["password"],
+      },
+    });
     res.send(users);
   } catch (error) {
     res.json(error);

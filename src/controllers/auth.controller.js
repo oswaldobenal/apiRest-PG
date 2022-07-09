@@ -12,7 +12,10 @@ import { tokenSing } from "../helpers/handleJwt.js";
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      where: { email },
+      attributes: ["id", "name", "lastName", "email", "role", "password"],
+    });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -22,7 +25,7 @@ export const login = async (req, res) => {
     const checkPassword = await compare(password, hashPassword);
 
     if (!checkPassword) {
-      return res.status(401).send("Password Invalid");
+      return res.status(401).send({ Error: "Password Incorrect" });
     }
 
     user.set("password", undefined, { strict: false });

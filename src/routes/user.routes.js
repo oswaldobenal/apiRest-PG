@@ -9,6 +9,7 @@ import {
 import { body } from "express-validator";
 //Middleware errores Express Validator.
 import { validatorResultExpress } from "../middlewares/validatorResultExpress.js";
+import { authMiddleware } from "../middlewares/session.js";
 const router = Router();
 
 router.post(
@@ -26,10 +27,11 @@ router.post(
   validatorResultExpress,
   createUser
 );
-router.get("/users", getUser);
-router.get("/:id", getDetailUser);
+router.get("/users", authMiddleware, getUser);
+router.get("/:id", authMiddleware, getDetailUser);
 router.put(
   "/:id",
+  authMiddleware,
   [
     body("name").trim().notEmpty().withMessage("name is required"),
     body("lastName").trim().notEmpty().withMessage("lastName is required"),
