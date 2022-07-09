@@ -29,7 +29,7 @@ export const tokenSing = async (user) => {
 
 export const verifyToken = async (tokenJwt) => {
   try {
-    return jwt.verify(tokenJwt);
+    return jwt.verify(tokenJwt, JWT_SECRET);
   } catch (error) {
     return null;
   }
