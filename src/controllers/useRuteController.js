@@ -8,7 +8,7 @@ import { User } from "../models/User.js";
 /// POST USER
 export const createUser =async (req, res)  => {
     const errors = validationResult(req);
-    const{ name,lastName, password,email,isFundation,active,donaciones=0,countryId,cityId}=req.body;
+    const{ name,lastName, password,email,isFundation,active,donaciones,countryId,cityId,address,phone,document}=req.body;
     const country= await Country.findByPk(countryId)
     const city= await City.findByPk(cityId)
     try {
@@ -18,12 +18,27 @@ export const createUser =async (req, res)  => {
     })
     if(verifyEmail){
         res.status(400).json({ message:"the email entered already exists "});
+
     }else{
-    let usersCountry= await User.create({ name, lastName,password,email,isFundation,active,donaciones })
+
+        if(isFundation===true){
+            
+        // Encode the String  ""
+        //  let encodedString = btoa(document);
+        //  console.log(encodedString); 
+      let usersCountry= await User.create({ name, lastName,password,email,isFundation,active:false,donaciones,address,phone,document })
         usersCountry.setCountry(country)
         usersCountry.setCity(city)
-     res.json({message:"User Cread"})
+    return res.json({message:"created user, wait for the verification of your foundation"})
+    }else{
+        let usersCountry= await User.create({ name, lastName,password,email,isFundation,active,donaciones,address,phone })
+        usersCountry.setCountry(country)
+        usersCountry.setCity(city)
+    return res.json({message:"User Cread"})
     }
+    
+}
+   
      } catch (error) {
      res.send(error)
      }
@@ -57,6 +72,10 @@ export const createUser =async (req, res)  => {
              donaciones:user.donaciones,
              country:user.countryId,
              city:city.name,
+             address:user.address,
+             phone:user.phone,
+             active:user.active,
+             document:user.document,
              pets:pets.map(e=>e)
             }
         }else{
@@ -66,6 +85,9 @@ export const createUser =async (req, res)  => {
                 email:user.email,
                 country:user.countryId,
                 city:city.name,
+                address:user.address,
+                phone:user.phone,
+                active:user.active,
                 pets:pets.map(e=>e)
                }
         }
@@ -82,10 +104,9 @@ export const createUser =async (req, res)  => {
 //PUT USER 
 export const putUser= async(req,res)=>{  
     const {id}=req.params;
-    const { name, lastName,password}=req.body;
+    const { name, lastName,password,address,phone,active,donaciones}=req.body;
        try {
-        
-         await User.update({ name, lastName,password},{
+         await User.update({ name, lastName,password,address,phone,active,donaciones},{
             where:{
                 id,
             }

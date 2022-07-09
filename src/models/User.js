@@ -36,14 +36,31 @@ export const User = sequelize.define(
     active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-
       defaultValue: true,
     },
     donaciones: {
       type: DataTypes.DOUBLE,
-      allowNull: false,
+      allowNull: true,
       defaultValue: 0,
     },
+    address:{
+      type: DataTypes.TEXT,
+      allowNull:true,
+      defaultValue:""
+    },
+    phone:{
+      type:DataTypes.INTEGER,
+      allowNull:true,
+      defaultValue:0
+    },
+    document:{
+      type:DataTypes.STRING,
+      allowNull:true,
+      defaultValue:null
+    }
+
+
+
   },
   {
     timestamps: false,
