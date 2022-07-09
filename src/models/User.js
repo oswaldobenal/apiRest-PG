@@ -23,26 +23,36 @@ export const User = sequelize.define(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    isFundation: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
+    role: {
+      type: DataTypes.ENUM,
+      values: ["fundation", "user"],
+      defaultValue: "user",
     },
     active: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-
       defaultValue: true,
     },
     donaciones: {
       type: DataTypes.DOUBLE,
-      allowNull: false,
       defaultValue: 0,
+    },
+    address: {
+      type: DataTypes.TEXT,
+      defaultValue: "",
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    document: {
+      type: DataTypes.STRING,
+      defaultValue: null,
     },
   },
   {
@@ -75,6 +85,3 @@ User.belongsTo(City, {
   foreignKey: "cityId",
   targetId: "id",
 });
-
-
-
