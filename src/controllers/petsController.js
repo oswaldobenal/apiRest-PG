@@ -13,115 +13,185 @@ export const getPets = async (req, res) => {
     }
 
     if (name === '') {
-      const pets = await Pets.findAll();
-      return res.status(200).json(pets);
+      const pets = await Pets.findAll({
+        raw: true,
+      });
+
+      const allPets = pets.map((pet) => {
+        pet.breed = JSON.parse(pet.breed)
+        pet.environment = JSON.parse(pet.environment)
+        return pet
+      });
+      return res.status(200).json(allPets);
     }
 
     if (name) {
-      const pets = await Pets.findAll();
-      const petByName = pets.filter(pet => pet.name.toLowerCase().indexOf(name.toLowerCase()) > -1)
+      const pets = await Pets.findAll({
+        raw: true,
+      });
+
+      const allPets = pets.map((pet) => {
+        pet.breed = JSON.parse(pet.breed)
+        pet.environment = JSON.parse(pet.environment)
+        return pet
+      });
+      const petByName = allPets.filter(pet => pet.name.toLowerCase().indexOf(name.toLowerCase()) > -1)
       return res.status(200).json(petByName);
     }
+    const pets = await Pets.findAll({
+      raw: true,
+    });
 
-    const pets = await Pets.findAll();
-    return res.status(200).json(pets);
+    const allPets = pets.map((pet) => {
+      pet.breed = JSON.parse(pet.breed)
+      pet.environment = JSON.parse(pet.environment)
+      return pet
+    });
+
+    return res.status(200).json(allPets);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 }
 
 export const createPets = async (req, res) => {
-  const image = req.file.path;
-  const idFile = req.file.filename.slice(req.file.filename.lastIndexOf('/') + 1);
+  const images = req?.files?.length
+    ? req.files.map(image => image.path)
+    : [];
+  const idFiles = req?.files?.length
+    ? req.files.map(img => img.filename.slice(img.filename.lastIndexOf('/') + 1))
+    : [];
   try {
     const {
       name,
-      race,
-      sexo,
-      city,
+      type,
+      breed,
+      gender,
+      environment,
+      tags,
       size,
       color,
+      age,
+      city,
       health,
       description,
       userId
     } = req.body;
 
     const user = await User.findByPk(userId);
-
     if (user) {
       const newPet = await Pets.create({
         name,
-        race,
-        sexo,
-        city,
+        type,
+        breed: typeof breed === 'object' ? JSON.stringify(breed) : breed,
+        gender,
+        environment: typeof environment === 'object' ? JSON.stringify(environment) : environment,
+        tags,
         size,
         color,
+        age,
+        city,
         health,
         description,
-        image
+        photos: images
       });
       await newPet.setUser(user.id);
       return res.status(201).json(newPet);
     }
-    await deleteFile(idFile);
+    idFiles.forEach(idFile => {
+      deleteFile(idFile);
+    });
     return res.status(400).json({ message: "user invalid" });
 
   } catch (error) {
-    await deleteFile(idFile);
+    idFiles.forEach(idFile => {
+      deleteFile(idFile);
+    });
     return res.status(400).json({ message: error.message });
   }
 }
 
 export const updatePets = async (req, res) => {
-  const newImage = req.file?.path;
-  const idFile = req.file?.filename.slice(req.file?.filename.lastIndexOf('/') + 1);
+  const imageUploadUrls = req?.files?.length
+    ? req.files.map(image => image.path)
+    : [];
+  const idUploadImages = req?.files?.length
+    ? req.files.map(img => img.filename.slice(img.filename.lastIndexOf('/') + 1))
+    : [];
   try {
     const { id } = req.params;
     const {
       name,
-      race,
-      sexo,
-      city,
+      type,
+      breed,
+      gender,
+      environment,
+      tags,
       size,
       color,
+      age,
+      city,
       health,
       description,
-      image,
-      userId
+      status,
+      urlPhotosDb,
     } = req.body;
 
     const pet = await Pets.findByPk(id);
-    const user = await User.findByPk(userId);
 
-    if (pet && user) {
+    const urlsDb = urlPhotosDb ? urlPhotosDb : [];
 
-      const nameFile = pet.image.slice(pet.image.lastIndexOf('/') + 1);
-      const oldIdFile = nameFile.slice(0, nameFile.indexOf('.'));
+    if (pet && pet.status === "adoptable") {
 
-      newImage && await deleteFile(oldIdFile);
-      await Pets.update({
+      const differenceUrlsDb = pet.photos.filter(url => !urlsDb.includes(url));
+
+      const urlPhotosDb = differenceUrlsDb.map(url => url.slice(url.lastIndexOf('/') + 1)); // [idImage.jpg]
+
+      const idImagesDb = urlPhotosDb.map(nameImage => nameImage.slice(0, nameImage.indexOf('.'))); // [idImage]
+
+      idImagesDb.length && idImagesDb.forEach(idFile => {
+        deleteFile(idFile);
+      });
+
+      const petUpdated = await Pets.update({
         name,
-        race,
-        sexo,
-        city,
+        type,
+        breed: typeof breed === 'object' ? JSON.stringify(breed) : breed,
+        gender,
+        environment: typeof environment === 'object' ? JSON.stringify(environment) : environment,
+        tags,
         size,
         color,
+        age,
+        city,
         health,
         description,
-        image: !image ? newImage : image,
+        photos: urlsDb.concat(imageUploadUrls),
+        status
       }, {
         where: {
           id
-        }
+        },
+        returning: true,
+        plain: true,
       });
-      pet.setUser(user.id);
-      return res.status(201).json({ message: 'Updated!' });
+
+      petUpdated[1].dataValues.breed = JSON.parse(petUpdated[1].dataValues.breed)
+      petUpdated[1].dataValues.environment = JSON.parse(petUpdated[1].dataValues.environment)
+
+      return res.status(201).json(petUpdated[1].dataValues);
     }
-    newImage && await deleteFile(idFile);
+
+    imageUploadUrls.length && idUploadImages.forEach(idFile => {
+      deleteFile(idFile);
+    });
+
     return res.status(400).json({ message: "pet invalid" });
 
   } catch (error) {
-    newImage && await deleteFile(idFile);
+    imageUploadUrls.length && idUploadImages.forEach(idFile => {
+      deleteFile(idFile);
+    });
     return res.status(400).json({ message: error.message });
   }
 
@@ -132,17 +202,14 @@ export const deletePets = async (req, res) => {
     const { id } = req.params;
     const pet = await Pets.findByPk(id);
     if (pet) {
-      const nameFile = pet.image.slice(pet.image.lastIndexOf('/') + 1);
-      const oldIdFile = nameFile.slice(0, nameFile.indexOf('.'));
-      await deleteFile(oldIdFile);
-      const deleted = await Pets.destroy({
+      await Pets.update({
+        status: "adopted",
+      }, {
         where: {
           id
         }
-      })
-      return deleted
-        ? res.status(200).json({ message: "successfully removed" })
-        : res.status(200).json({ message: "error deleting" });
+      });
+      return res.status(200).json({ message: "successfully removed" });
     }
     return res.status(400).json({ message: "pet invalid" });
   } catch (error) {
