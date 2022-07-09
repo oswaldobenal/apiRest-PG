@@ -12,7 +12,7 @@ import { validatorResultExpress } from "../middlewares/validatorResultExpress.js
 const router = Router();
 
 router.post(
-  "/user",
+  "/",
   [
     body("name").trim().notEmpty().withMessage("name is required"),
     body("lastName").trim().notEmpty().withMessage("lastName is required"),
@@ -22,15 +22,14 @@ router.post(
       .isLength({ min: 6 })
       .notEmpty()
       .withMessage("password is required"),
-    body("phone", "Min 10 numbers").trim().isLength({ min: 10 }),
   ],
   validatorResultExpress,
   createUser
 );
 router.get("/users", getUser);
-router.get("/user/:id", getDetailUser);
+router.get("/:id", getDetailUser);
 router.put(
-  "/user/:id",
+  "/:id",
   [
     body("name").trim().notEmpty().withMessage("name is required"),
     body("lastName").trim().notEmpty().withMessage("lastName is required"),
