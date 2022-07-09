@@ -1,6 +1,9 @@
 import { Pets } from '../models/Pets.js';
 import { User } from '../models/User.js';
+import { TypePet } from '../models/typepet.js';
+import { BreedPet } from '../models/Breedpet.js';
 import { deleteFile } from '../middlewares/cloudinary.js';
+
 
 export const getPets = async (req, res) => {
   try {
@@ -8,17 +11,40 @@ export const getPets = async (req, res) => {
     const { name } = req.query;
 
     if (id) {
-      const pet = await Pets.findByPk(id);
+      const pet = await Pets.findByPk(id, {
+        include: [
+          {
+            model: TypePet,
+            attributes: ['name'],
+          },
+          {
+            model: BreedPet,
+            attributes: ['name'],
+          }
+        ],
+        raw: true,
+      });
+      pet.environment = JSON.parse(pet.environment)
       return res.status(200).json(pet);
     }
 
     if (name === '') {
       const pets = await Pets.findAll({
+        attributes: { exclude: ['breedId', 'typeId'] },
+        include: [
+          {
+            model: TypePet,
+            attributes: ['name'],
+          },
+          {
+            model: BreedPet,
+            attributes: ['name'],
+          }
+        ],
         raw: true,
       });
 
       const allPets = pets.map((pet) => {
-        pet.breed = JSON.parse(pet.breed)
         pet.environment = JSON.parse(pet.environment)
         return pet
       });
@@ -27,11 +53,21 @@ export const getPets = async (req, res) => {
 
     if (name) {
       const pets = await Pets.findAll({
+        attributes: { exclude: ['breedId', 'typeId'] },
+        include: [
+          {
+            model: TypePet,
+            attributes: ['name'],
+          },
+          {
+            model: BreedPet,
+            attributes: ['name'],
+          }
+        ],
         raw: true,
       });
 
       const allPets = pets.map((pet) => {
-        pet.breed = JSON.parse(pet.breed)
         pet.environment = JSON.parse(pet.environment)
         return pet
       });
@@ -39,11 +75,21 @@ export const getPets = async (req, res) => {
       return res.status(200).json(petByName);
     }
     const pets = await Pets.findAll({
+      attributes: { exclude: ['breedId', 'typeId'] },
+      include: [
+        {
+          model: TypePet,
+          attributes: ['name'],
+        },
+        {
+          model: BreedPet,
+          attributes: ['name'],
+        }
+      ],
       raw: true,
     });
 
     const allPets = pets.map((pet) => {
-      pet.breed = JSON.parse(pet.breed)
       pet.environment = JSON.parse(pet.environment)
       return pet
     });
@@ -64,8 +110,11 @@ export const createPets = async (req, res) => {
   try {
     const {
       name,
-      type,
-      breed,
+      typeId,
+      breedId,
+      typeHair,
+      specialCares,
+      castrated,
       gender,
       environment,
       tags,
@@ -79,11 +128,17 @@ export const createPets = async (req, res) => {
     } = req.body;
 
     const user = await User.findByPk(userId);
+    const breed = await BreedPet.findByPk(breedId);
+    const type = await TypePet.findByPk(typeId);
+
     if (user) {
       const newPet = await Pets.create({
         name,
-        type,
-        breed: typeof breed === 'object' ? JSON.stringify(breed) : breed,
+        typeId,
+        breedId,
+        typeHair,
+        specialCares,
+        castrated,
         gender,
         environment: typeof environment === 'object' ? JSON.stringify(environment) : environment,
         tags,
@@ -96,6 +151,8 @@ export const createPets = async (req, res) => {
         photos: images
       });
       await newPet.setUser(user.id);
+      await newPet.setTypepet(type);
+      await newPet.setBreedpet(breed);
       return res.status(201).json(newPet);
     }
     idFiles.forEach(idFile => {
@@ -122,8 +179,11 @@ export const updatePets = async (req, res) => {
     const { id } = req.params;
     const {
       name,
-      type,
-      breed,
+      typeId,
+      breedId,
+      typeHair,
+      specialCares,
+      castrated,
       gender,
       environment,
       tags,
@@ -138,6 +198,8 @@ export const updatePets = async (req, res) => {
     } = req.body;
 
     const pet = await Pets.findByPk(id);
+    const breed = await BreedPet.findByPk(breedId);
+    const type = await TypePet.findByPk(typeId);
 
     const urlsDb = urlPhotosDb ? urlPhotosDb : [];
 
@@ -155,8 +217,9 @@ export const updatePets = async (req, res) => {
 
       const petUpdated = await Pets.update({
         name,
-        type,
-        breed: typeof breed === 'object' ? JSON.stringify(breed) : breed,
+        typeHair,
+        specialCares,
+        castrated,
         gender,
         environment: typeof environment === 'object' ? JSON.stringify(environment) : environment,
         tags,
@@ -176,7 +239,9 @@ export const updatePets = async (req, res) => {
         plain: true,
       });
 
-      petUpdated[1].dataValues.breed = JSON.parse(petUpdated[1].dataValues.breed)
+      await pet.setTypepet(type);
+      await pet.setBreedpet(breed);
+
       petUpdated[1].dataValues.environment = JSON.parse(petUpdated[1].dataValues.environment)
 
       return res.status(201).json(petUpdated[1].dataValues);

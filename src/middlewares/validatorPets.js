@@ -5,10 +5,8 @@ export default [
   check('name')
     .trim()
     .notEmpty().withMessage('Pet name can not be empty!'),
-  check('type')
-    .isIn(['dog', 'cat']),
-  check('gender')
-    .isIn(['male', 'female']),
+  check('typeHair')
+    .isIn(['hairless', 'short', 'medium', 'long', 'wire', 'kinky']),
   check('tags')
     .isIn(['friendly', 'affectionate', 'protective', 'smart', 'funny', 'quiet']),
   check('size')

@@ -15,6 +15,8 @@ import pets from "./pets.routes.js";
 import user from "./user.routes.js";
 import cities from "./cities.routes.js";
 import auth from "./auth.routes.js";
+import typePet from "./typePet.routes.js";
+import breedPet from "./breedPet.routes.js";
 
 const router = Router();
 
@@ -23,5 +25,8 @@ router.use('/cities', cities);
 router.use('/user', user);
 router.use('/pets', pets);
 router.use('/auth', auth);
+
+router.use('/type-pet', typePet);
+router.use('/breed-pet', breedPet);
 
 export default router;

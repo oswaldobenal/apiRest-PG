@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/database.js';
-
+import { TypePet } from "./typepet.js";
+import { BreedPet } from "./Breedpet.js";
 
 export const Pets = sequelize.define('pets', {
   id: {
@@ -15,19 +16,17 @@ export const Pets = sequelize.define('pets', {
       this.setDataValue('name', value.toLowerCase());
     }
   },
-  type: {
+  typeHair: {
     type: DataTypes.ENUM,
-    values: ['dog', 'cat'],
-    allowNull: false,
+    values: ['hairless', 'short', 'medium', 'long', 'wire', 'kinky'],
   },
-  breed: {
-    type: DataTypes.JSONB,
-    get() {
-      return JSON.parse(this.getDataValue("breed"));
-    },
-    set(value) {
-      this.setDataValue('breed', value.toLowerCase());
-    }
+  specialCares: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  castrated: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   },
   gender: {
     type: DataTypes.ENUM,
@@ -97,3 +96,12 @@ export const Pets = sequelize.define('pets', {
 }, {
   timestamps: false,
 })
+
+Pets.belongsTo(BreedPet, {
+  foreignKey: "breedId",
+  targetId: "id",
+});
+Pets.belongsTo(TypePet, {
+  foreignKey: "typeId",
+  targetId: "id",
+});
