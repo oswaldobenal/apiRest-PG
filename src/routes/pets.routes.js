@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/", getPets);
 router.get("/:id", getPets);
-router.post("/", validatorPets, upload.array("photos"), createPets);
+router.post("/", upload.array("photos"), validatorPets, createPets);
 router.put("/:id", upload.array("photos"), updatePets)
 router.delete("/:id", deletePets)
 
