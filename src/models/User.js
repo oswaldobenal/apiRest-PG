@@ -1,54 +1,87 @@
-
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
+import { City } from "./City.js";
+import { Country } from "./Country.js";
 import { Pets } from "./Pets.js";
-import { Rol } from "./Rol.js";
 
-
-export const User = sequelize.define('user', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+export const User = sequelize.define(
+  "user",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.ENUM,
+      values: ["fundation", "user"],
+      defaultValue: "user",
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    donaciones: {
+      type: DataTypes.DOUBLE,
+      defaultValue: 0,
+    },
+    address: {
+      type: DataTypes.TEXT,
+      defaultValue: "",
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    document: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  countrie:{
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  city:{
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email:{
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  password:{
-    type: DataTypes.STRING,
-    allowNull: false,
+  {
+    timestamps: false,
   }
+);
 
-}, {
-  timestamps: false
-})
-User.belongsToMany(Rol,{through:"user_rol"})
-Rol.belongsToMany(User,{through:"user_rol"})
 User.hasMany(Pets, {
   foreignKey: "userId",
   sourceKey: "id",
-  });
-  
-  Pets.belongsTo(User, {
+});
+
+Pets.belongsTo(User, {
   foreignKey: "userId",
   targetId: "id",
-  });
-
+});
+Country.hasMany(User, {
+  foreignKey: "countryId",
+  sourceKey: "id",
+});
+User.belongsTo(Country, {
+  foreignKey: "countryId",
+  targetId: "id",
+});
+City.hasMany(User, {
+  foreignKey: "cityId",
+  sourceKey: "id",
+});
+User.belongsTo(City, {
+  foreignKey: "cityId",
+  targetId: "id",
+});

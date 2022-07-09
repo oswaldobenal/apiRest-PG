@@ -6,8 +6,7 @@ export const Country = sequelize.define(
   "countries",
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
     name: {
