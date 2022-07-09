@@ -20,7 +20,6 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: CLOUDINARY_PATHNAME,
-    public_id: () => Date.now()
   },
 });
 
