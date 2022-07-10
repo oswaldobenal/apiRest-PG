@@ -68,13 +68,6 @@ export const Pets = sequelize.define('pets', {
     allowNull: false,
     defaultValue: DataTypes.NOW
   },
-  city: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    set(value) {
-      this.setDataValue('city', value.toLowerCase());
-    }
-  },
   health: {
     type: DataTypes.ENUM,
     values: ['vaccinations up to date', 'no vaccines'],
