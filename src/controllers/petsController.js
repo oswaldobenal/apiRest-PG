@@ -1,6 +1,6 @@
 import { Pets } from '../models/Pets.js';
 import { User } from '../models/User.js';
-import { TypePet } from '../models/typepet.js';
+import { TypePet } from '../models/Typepet.js';
 import { BreedPet } from '../models/Breedpet.js';
 import { deleteFile } from '../middlewares/cloudinary.js';
 
