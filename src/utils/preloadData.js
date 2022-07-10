@@ -34,14 +34,14 @@ export const preloadTypesPets = async () => {
       await TypePet.findOrCreate({
         where: {
           id: typesPets[i].type,
-          name: typesPets[i].type
+          nameType: typesPets[i].type
         },
       });
       for (let j = 0; j < typesPets[i].breeds.length; j++) {
         await BreedPet.findOrCreate({
           where: {
             typeId: typesPets[i].type,
-            name: typesPets[i].breeds[j],
+            nameBreed: typesPets[i].breeds[j],
           },
         });
       }

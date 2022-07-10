@@ -18,6 +18,8 @@ import auth from "./auth.routes.js";
 import typePet from "./typePet.routes.js";
 import breedPet from "./breedPet.routes.js";
 
+import petsDataFake from "./petsDataFake.routes.js";
+
 const router = Router();
 
 router.use('/countries', countries);
@@ -28,5 +30,7 @@ router.use('/auth', auth);
 
 router.use('/type-pet', typePet);
 router.use('/breed-pet', breedPet);
+
+router.use('/dataPetsFake', petsDataFake);
 
 export default router;

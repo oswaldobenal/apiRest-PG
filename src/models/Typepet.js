@@ -8,7 +8,7 @@ export const TypePet = sequelize.define(
       type: DataTypes.STRING,
       primaryKey: true,
     },
-    name: {
+    nameType: {
       type: DataTypes.STRING,
       allowNull: false,
     },

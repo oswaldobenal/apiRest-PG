@@ -10,7 +10,7 @@ export const BreedPet = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    nameBreed: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -21,6 +21,11 @@ export const BreedPet = sequelize.define(
 );
 
 //Relaciones
+
+TypePet.hasMany(BreedPet, {
+  foreignKey: "typeId",
+  sourceKey: "id",
+})
 
 BreedPet.belongsTo(TypePet, {
   foreignKey: "typeId",
