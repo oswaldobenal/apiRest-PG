@@ -74,7 +74,7 @@
       "cityId": 580
     }
     
-## Obtener los usuarios por id
+## Actualizar Usuarios
 
 ### Request
 
@@ -90,7 +90,7 @@
 
     { message: "Updated!" }
 
-## LOGGIN
+## LOGIN
 
 ### Request
 
