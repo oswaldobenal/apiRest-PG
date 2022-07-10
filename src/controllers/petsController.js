@@ -62,6 +62,10 @@ export const getPets = async (req, res) => {
           {
             model: BreedPet,
             attributes: ['name'],
+          },
+          {
+            model: User,
+            attributes: ['countryId'],
           }
         ],
         raw: true,
@@ -121,7 +125,6 @@ export const createPets = async (req, res) => {
       size,
       color,
       age,
-      city,
       health,
       description,
       userId
@@ -145,7 +148,6 @@ export const createPets = async (req, res) => {
         size,
         color,
         age,
-        city,
         health,
         description,
         photos: images
@@ -190,7 +192,6 @@ export const updatePets = async (req, res) => {
       size,
       color,
       age,
-      city,
       health,
       description,
       status,
@@ -226,7 +227,6 @@ export const updatePets = async (req, res) => {
         size,
         color,
         age,
-        city,
         health,
         description,
         photos: urlsDb.concat(imageUploadUrls),
