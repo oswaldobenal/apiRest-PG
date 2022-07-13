@@ -113,26 +113,40 @@ export const getDetailUser = async (req, res) => {
   }
 };
 
-//PUT USER
+//UPDATE USER
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { password } = req.body;
-  console.log(req.body);
+  const { password, newPassword } = req.body;
+  const us = await User.findOne({
+    where: {
+      id,
+    },
+  });
   try {
-    if (password) {
-      //Hash of password.
-      const passwordHash = await encrypt(password);
-      await User.update(
-        {
-          password: passwordHash,
-        },
-        {
-          where: {
-            id,
+    if (password && newPassword) {
+      const checkPassword = await compare(password, us.password);
+      if (checkPassword) {
+        //Hash of password.
+        const passwordHash = await encrypt(newPassword);
+        await User.update(
+          {
+            password: passwordHash,
           },
-        }
-      );
-      return res.status(201).json({ message: "Password Updated!" });
+          {
+            where: {
+              id,
+            },
+          }
+        );
+
+        return res.send({Ok: "Password Updated Successfully!!"});
+      } else {
+        return res
+          .status(401)
+          .json({
+            error: "Password Incorrect, Please insert your actual password",
+          });
+      }
     }
 
     await User.update(req.body, {
@@ -141,7 +155,15 @@ export const updateUser = async (req, res) => {
       },
     });
 
-    return res.status(201).json({ message: "User Updated!" });
+    const userUpdated = await User.findOne({
+      where: {
+        id,
+      },
+      attributes: {
+        exclude: ["password"],
+      },
+    });
+    return res.send(userUpdated);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
