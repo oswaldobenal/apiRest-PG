@@ -114,32 +114,34 @@ export const getDetailUser = async (req, res) => {
 };
 
 //PUT USER
-export const putUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, lastName, password, role, address, phone, active, donaciones } =
-    req.body;
+  const { password } = req.body;
+  console.log(req.body);
   try {
-    //Hash of password update.
-    const passwordHash = await encrypt(password);
-
-    await User.update(
-      {
-        name,
-        lastName,
-        password: passwordHash,
-        role,
-        address,
-        phone,
-        active,
-        donaciones,
-      },
-      {
-        where: {
-          id,
+    if (password) {
+      //Hash of password.
+      const passwordHash = await encrypt(password);
+      await User.update(
+        {
+          password: passwordHash,
         },
-      }
-    );
-    return res.status(201).json({ message: "Updated!" });
+        {
+          where: {
+            id,
+          },
+        }
+      );
+      return res.status(201).json({ message: "Password Updated!" });
+    }
+
+    await User.update(req.body, {
+      where: {
+        id,
+      },
+    });
+
+    return res.status(201).json({ message: "User Updated!" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

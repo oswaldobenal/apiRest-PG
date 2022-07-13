@@ -4,7 +4,7 @@ import {
   createUser,
   getDetailUser,
   getUser,
-  putUser,
+  updateUser,
 } from "../controllers/useRuteController.js";
 import { body } from "express-validator";
 //Middleware errores Express Validator.
@@ -29,16 +29,6 @@ router.post(
 );
 router.get("/users", authMiddleware, getUser);
 router.get("/:id", authMiddleware, getDetailUser);
-router.put(
-  "/:id",
-  authMiddleware,
-  [
-    body("name").trim().notEmpty().withMessage("name is required"),
-    body("lastName").trim().notEmpty().withMessage("lastName is required"),
-    body("password").trim().notEmpty().withMessage("password is required"),
-  ],
-  validatorResultExpress,
-  putUser
-);
+router.patch("/:id", authMiddleware, updateUser);
 
 export default router;
