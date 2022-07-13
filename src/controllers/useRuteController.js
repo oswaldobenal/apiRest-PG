@@ -12,6 +12,7 @@ export const createUser = async (req, res) => {
     password,
     email,
     active,
+    verification,
     donaciones,
     countryId,
     cityId,
