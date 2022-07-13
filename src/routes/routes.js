@@ -20,6 +20,8 @@ import breedPet from "./breedPet.routes.js";
 
 import petsDataFake from "./petsDataFake.routes.js";
 
+import veriEmail from "./veriEmail.routes.js"
+
 const router = Router();
 
 router.use('/countries', countries);
@@ -32,5 +34,8 @@ router.use('/type-pet', typePet);
 router.use('/breed-pet', breedPet);
 
 router.use('/dataPetsFake', petsDataFake);
+
+router.use('/verify', veriEmail);
+
 
 export default router;

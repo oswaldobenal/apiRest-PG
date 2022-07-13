@@ -38,6 +38,10 @@ export const User = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    verification: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     donaciones: {
       type: DataTypes.DOUBLE,
       defaultValue: 0,
