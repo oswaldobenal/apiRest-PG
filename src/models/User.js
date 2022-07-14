@@ -50,7 +50,7 @@ export const User = sequelize.define(
       type: DataTypes.STRING
     },
     document: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       defaultValue: null,
     },
   },

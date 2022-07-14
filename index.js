@@ -5,6 +5,7 @@ import "./src/models/Country.js";
 import "./src/models/User.js";
 import "./src/models/Breedpet.js";
 import "./src/models/Typepet.js";
+import "./src/models/Solicitudes.js";
 import { preloadCountrys, preloadTypesPets } from './src/utils/preloadData.js';
 
 const PORT = process.env.PORT || 5000;
