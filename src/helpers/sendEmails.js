@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import "dotenv/config";
+import { html } from "../utils/email.js";
 const {APP_EMAIL, APP_PASS_EMAIL} = process.env
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -7,7 +8,7 @@ let transporter = nodemailer.createTransport({
     secure: true, // true for 465, false for other ports
     auth: {
         user: APP_EMAIL, // generated ethereal user
-        pass: APP_PASS_EMAIL, // generated ethereal password
+        pass: APP_PASS_EMAIL, // generated ethereal passwor
     },
 });
 
@@ -17,5 +18,14 @@ export const sendEmails = async (from, to, subject, html) => {
         to: to, // list of receivers
         subject: subject, // Subject line
         html: html, // html body
+      });
+}
+
+export const autoMail = async (from, to, subject,titulo, info, button) => {
+    await transporter.sendMail({
+        from: `${from} <adoptaMe>`, // sender address
+        to: to, // list of receivers
+        subject: subject, // Subject line
+        html: html(titulo, info, button), // html body
       });
 }
