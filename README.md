@@ -6,7 +6,7 @@
 
 `POST /user/`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/user
+    https://restapi-adoptame.up.railway.app/api/v1.0/user
 
 ### Response
 
@@ -22,7 +22,7 @@
 
     bearer: token
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/user/users
+    https://restapi-adoptame.up.railway.app/api/v1.0/user/users
 
 ### Response
 
@@ -53,7 +53,7 @@
 
     bearer: token
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/user/{id}
+    https://restapi-adoptame.up.railway.app/api/v1.0/user/{id}
 
 ### Response
 
@@ -82,7 +82,7 @@
 
     bearer: token
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/user/{id}
+    https://restapi-adoptame.up.railway.app/api/v1.0/user/{id}
 
 ### Response
 
@@ -101,7 +101,7 @@
       "password": "mypassword"
     }
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/auth/userLogin/
+    https://restapi-adoptame.up.railway.app/api/v1.0/auth/userLogin/
 
 ### Response
 
@@ -124,7 +124,7 @@
 
 `GET /pet/`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/pets/
+    https://restapi-adoptame.up.railway.app/api/v1.0/pets/
 
 ### Response
 
@@ -210,7 +210,7 @@
 
 `GET /pet/`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/pets/{id}
+    https://restapi-adoptame.up.railway.app/api/v1.0/pets/{id}
 
 ### Response
 
@@ -291,7 +291,7 @@
 
 `POST /pets/`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/pets
+    https://restapi-adoptame.up.railway.app/api/v1.0/pets
 
 ### Response
 
@@ -364,7 +364,7 @@
 
 `PUT /pets/{id}`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/pets/id
+    https://restapi-adoptame.up.railway.app/api/v1.0/pets/id
 
 ### Response
 
@@ -406,7 +406,7 @@
 
 `GET /countries/`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/countries/
+    https://restapi-adoptame.up.railway.app/api/v1.0/countries/
 
 ### Response
 
@@ -441,7 +441,7 @@
 
 `GET /cities/{idCountry}`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/cities/{idCountry}
+    https://restapi-adoptame.up.railway.app/api/v1.0/cities/{idCountry}
 
 ### Response
 
@@ -482,7 +482,7 @@
 
 `GET /type-pet/`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/type-pet/
+    https://restapi-adoptame.up.railway.app/api/v1.0/type-pet/
 
 ### Response
 
@@ -505,7 +505,7 @@
 
 `GET /breed-pet/{idTipoMascota}`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/breed-pet/{idTipoMascota}
+    https://restapi-adoptame.up.railway.app/api/v1.0/breed-pet/{idTipoMascota}
 
 ### Response
 
@@ -546,7 +546,7 @@
 
 `GET /breed-pet/`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/breed-pet/
+    https://restapi-adoptame.up.railway.app/api/v1.0/breed-pet/
 
 ### Response
 
@@ -587,7 +587,7 @@
 
 `GET /dataPetsFake/{results}`
 
-    https://api-rest-adoptame.herokuapp.com/api/v1.0/dataPetsFake/2
+    https://restapi-adoptame.up.railway.app/api/v1.0/dataPetsFake/2
 
 ### Response
 
@@ -669,3 +669,98 @@
         "address": "629 Krajcik Loaf"
       }
     ]
+
+# Email de verificacion de usuario
+
+## request
+
+  `POST /verify`
+
+  https://restapi-adoptame.up.railway.app/api/v1.0/verify
+
+  {
+    "email" : "correro@correo.com"
+  }
+
+## response
+
+     {
+      "msg": "send email"
+     }
+
+# Verificacion de usuario
+
+## request
+
+   `GET /verify/tk/{token}`
+
+   https://restapi-adoptame.up.railway.app/api/v1.0/verify/tk/{token}
+
+
+## response
+
+    {
+      "msg": "verified email"
+    }
+
+
+# Email de recuperacion de contraseña
+
+## request
+
+  `POST /verify/recpass`
+
+     https://restapi-adoptame.up.railway.app/api/v1.0/verify/recpass
+
+    {
+    "email" : "correro@correo.com"
+    }
+
+## response
+
+    {
+      "msg": "send email"
+    }
+
+# Modificacion de contraseña por recuperacion
+
+## request
+
+  `PUT /verify/modpass/{token}`
+
+  https://restapi-adoptame.up.railway.app/api/v1.0/verify/modpass/{token}
+
+     {
+     "password1": "password",
+     "password2": "password"
+     }
+
+## response
+
+    {
+     "msg": "updated password"
+    }
+
+
+
+# envio de emails automatizado
+
+#### NT: solo el from, info y email son obligatorios, el resto es opcional (se puede dejar en blanco o directamente no poner los opcionales)
+
+## request
+
+  `POST /auto`
+
+  https://restapi-adoptame.up.railway.app/api/v1.0/auto
+
+    {
+    "from": "Quien lo envia",
+    "to": "email@correo.com",
+    "subject": "asunto o razon (si no se pone se enviara lo mismo que el from)",
+    "titulo": "titulo del texto (si no se pone se enviara lo mismo que el from)",
+    "info": "informacion",
+    "button": {
+        "link": "un link de redireccion (si no se envia link, el boton no aparecera)",
+        "text": "texto del boton (este es opcional para el boton, si no se pone tendra por defecto 'click here')"
+              }
+    }

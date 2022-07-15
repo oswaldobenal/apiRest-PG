@@ -22,8 +22,8 @@ export const sendEmails = async (from, to, subject, html) => {
 }
 
 export const autoMail = async (from, to, subject,titulo, info, button) => {
-    if (subject === undefined || subject.length <= 2) {subject=from}
-    if (titulo === undefined || titulo.length <= 2) {titulo=from}
+    if (subject === undefined || !subject.length) {subject=from}
+    if (titulo === undefined || !titulo.length) {titulo=from}
     await transporter.sendMail({
         from: `${from} <adoptaMe>`,
         to: to,
