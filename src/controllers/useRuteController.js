@@ -57,11 +57,11 @@ export const createUser = async (req, res) => {
             Solicitudes.create({
               userId: userFundation.id,
             });
-            res.json({
+            return res.json({
               message:
                 "User Created Successfully!, If you solicited a verification of fundation the state is pending",
             });
-            break;
+
           case "admin":
             const userAdmin = await User.create({
               name,
@@ -74,10 +74,9 @@ export const createUser = async (req, res) => {
             userAdmin.set("password", undefined, { strict: false });
             userAdmin.setCountry(country);
             userAdmin.setCity(city);
-            res.json({
+            return res.json({
               message: "Admin Created Successfully!",
             });
-            break;
           default:
             const user = await User.create({
               name,
