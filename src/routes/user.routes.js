@@ -12,13 +12,13 @@ import { body } from "express-validator";
 //Middleware errores Express Validator.
 import { validatorResultExpress } from "../middlewares/validatorResultExpress.js";
 import { authMiddleware } from "../middlewares/session.js";
-import { upload } from "../middlewares/cloudinary.js";
+// import { upload } from "../middlewares/cloudinary.js";
 import { checkRole } from "../middlewares/validarAdmin.js";
 
 const router = Router();
 
 router.post(
-  "/",upload.array('document'),
+  "/",
   [
     body("name").trim().notEmpty().withMessage("name is required"),
     body("lastName").trim().notEmpty().withMessage("lastName is required"),
