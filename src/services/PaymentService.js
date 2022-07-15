@@ -52,7 +52,7 @@ export const newPreferentialPaymentService = async (dataBody) => {
     back_urls: {
       // success: "http://localhost:5000/api/v1.0/donations/success",
       success: "https://pf-front-git-route-emiandd.vercel.app/",
-      failure: "http://www.failure.com",
+      failure: "https://pf-front-git-route-emiandd.vercel.app/sponsor",
       pending: "http://www.pending.com"
     },
     metadata,
