@@ -12,6 +12,7 @@ async function main() {
   try {
     await sequelize.sync({ force: false });
     app.listen(PORT, () => {
+
       preloadCountrys();
       preloadTypesPets();
       console.log(`Server runing in port ${PORT}`);

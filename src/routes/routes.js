@@ -17,6 +17,7 @@ import cities from "./cities.routes.js";
 import auth from "./auth.routes.js";
 import typePet from "./typePet.routes.js";
 import breedPet from "./breedPet.routes.js";
+import donation from "./donation.routes.js";
 
 import petsDataFake from "./petsDataFake.routes.js";
 
@@ -37,5 +38,6 @@ router.use('/dataPetsFake', petsDataFake);
 
 router.use('/verify', veriEmail);
 
+router.use('/donations', donation);
 
 export default router;

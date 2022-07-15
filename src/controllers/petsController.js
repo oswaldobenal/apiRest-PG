@@ -2,98 +2,26 @@ import { Pets } from '../models/Pets.js';
 import { User } from '../models/User.js';
 import { TypePet } from '../models/Typepet.js';
 import { BreedPet } from '../models/Breedpet.js';
-import { City } from '../models/City.js';
 import { deleteFile } from '../middlewares/cloudinary.js';
+import { findAllPets, findByPkPets } from '../models/Views/pets.views.js';
 
-const findAllPets = async () => {
-  const pets = await Pets.findAll({
-    attributes: { exclude: ['breedId', 'typeId'] },
-    include: [
-      {
-        model: TypePet,
-        attributes: ['nameType'],
-      },
-      {
-        model: BreedPet,
-        attributes: ['nameBreed'],
-      },
-      {
-        model: User,
-        attributes: ['address'],
-        include: [
-          {
-            model: City,
-            attributes: ['name'],
-          }
-        ]
-      }
-    ],
-    raw: true,
-  });
-
-  const responsePets = pets.map((pet) => {
-    pet.environment = JSON.parse(pet.environment)
-    pet['type'] = pet["typepet.nameType"];
-    pet['breed'] = pet["breedpet.nameBreed"];
-    pet['city'] = pet["user.city.name"];
-    pet['address'] = pet["user.address"];
-    delete pet["typepet.nameType"];
-    delete pet['breedpet.nameBreed'];
-    delete pet["user.city.id"];
-    delete pet["user.city.name"];
-    delete pet['user.address'];
-    return pet
-  });
-  return responsePets;
-}
-
-const findByPkPets = async (id) => {
-  const pet = await Pets.findByPk(id, {
-    attributes: { exclude: ['breedId', 'typeId'] },
-    include: [
-      {
-        model: TypePet,
-        attributes: ['nameType'],
-      },
-      {
-        model: BreedPet,
-        attributes: ['nameBreed'],
-      },
-      {
-        model: User,
-        attributes: ['address'],
-        include: [
-          {
-            model: City,
-            attributes: ['name'],
-          }
-        ]
-      }
-    ],
-    raw: true,
-  });
-  pet.environment = JSON.parse(pet.environment)
-  pet['type'] = pet["typepet.nameType"];
-  pet['breed'] = pet["breedpet.nameBreed"];
-  pet['city'] = pet["user.city.name"];
-  pet['address'] = pet["user.address"];
-  delete pet["typepet.nameType"];
-  delete pet['breedpet.nameBreed'];
-  delete pet["user.city.id"];
-  delete pet["user.city.name"];
-  delete pet['user.address'];
-  return pet;
-}
-
-export const getPets = async (req, res) => {
+export const getPetsById = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name } = req.query;
 
     if (id) {
       const detailPet = await findByPkPets(id);
       return res.status(200).json(detailPet);
     }
+
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+export const getAllPets = async (req, res) => {
+  try {
+    const { name } = req.query;
 
     if (name === '') {
       const allPets = await findAllPets();
