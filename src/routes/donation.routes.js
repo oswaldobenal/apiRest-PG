@@ -7,11 +7,11 @@ import {
 
 const router = Router();
 
-/* router.get("/success", (req, res) => {
+router.get("/success", (req, res) => {
   console.log(req.query);
   return res.send(req.query)
 });
- */
+
 router.post("/urlPreferential", createPreferentialPayment);
 router.get("/mercadopago/:idPayment", getPaymentById);
 
