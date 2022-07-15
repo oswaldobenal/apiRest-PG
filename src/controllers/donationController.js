@@ -6,14 +6,35 @@ export const createDonation = async (req, res) => {
     const { data } = req.body;
     const payment = await getPaymentByIdService(data.id);
     if (payment) {
-      const { metadata } = payment;
-      const newFavouritePet = await Donations.create({
-        fromUserId: metadata.from_user.id,
-        toUserId: metadata.from_user.id
-      })
-      return res.status(201).json({ data: newFavouritePet, message: "successfully donated" })
+      const {
+        metadata,
+        status,
+        status_detail,
+        fee_details,
+        transaction_details
+      } = payment;
+
+      if (status === 'approved' && status_detail === 'accredited') {
+        console.log('metadata: ', metadata);
+        console.log('status: ', status);
+        console.log('status_detail: ', status_detail);
+        console.log('fee_details: ', fee_details);
+        console.log('transaction_details: ', transaction_details);
+        const newFavouritePet = await Donations.create({
+          fromUserId: metadata.from_user.id,
+          toUserId: metadata.to_user.id,
+          status,
+          status_detail,
+          comision_amount: fee_details.amount,
+          acredit_amount: transaction_details.net_received_amount,
+          total_amount: transaction_details.total_paid_amount,
+        })
+        return res.status(201).json({ data: newFavouritePet, message: "successfully donated" })
+      }
     }
+    return res.status(200).json({ data: req.body });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ message: error.message });
   }
 }
