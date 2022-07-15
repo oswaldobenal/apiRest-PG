@@ -50,13 +50,14 @@ export const newPreferentialPaymentService = async (dataBody) => {
         }, */
     auto_return: "approved",
     back_urls: {
-      success: "http://localhost:5000/api/v1.0/donations/success",
+      // success: "http://localhost:5000/api/v1.0/donations/success",
+      success: "https://api-rest-adoptame.up.railway.app/api/v1.0/donations/success",
       failure: "http://www.failure.com",
       pending: "http://www.pending.com"
     },
     metadata,
-    notification_url: "https://api-rest-adoptame.up.railway.app/api/v1.0/pets/notif?source_news=webhooks",
-    // USAR EN PRODUCCIÓN => notification_url: "https://api-rest-adoptame.up.railway.app/api/v1.0/donation?source_news=webhooks"
+    // notification_url: "https://api-rest-adoptame.up.railway.app/api/v1.0/pets/notif?source_news=webhooks",
+    notification_url: "https://api-rest-adoptame.up.railway.app/api/v1.0/donations?source_news=webhooks"
     /*     metadata: {
           fromUser: {
             country: "PER"
