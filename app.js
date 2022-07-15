@@ -4,8 +4,8 @@ import index from './src/routes/routes.js';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import swaggerUi from 'swagger-ui-express';
-import swaggerFile from './swagger_output.json';
+// import swaggerUi from 'swagger-ui-express';
+// import swaggerFile from './swagger_output.json';
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+// app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 //use routes
 app.use("/api/v1.0", index);
