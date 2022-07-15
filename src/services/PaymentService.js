@@ -48,10 +48,10 @@ export const newPreferentialPaymentService = async (dataBody) => {
             zip_code: "5700"
           }
         }, */
-    auto_return: "approved",
+    auto_return: "all", // solo a pagos aprovados
     back_urls: {
       // success: "http://localhost:5000/api/v1.0/donations/success",
-      success: "https://api-rest-adoptame.up.railway.app/api/v1.0/donations/success",
+      success: "https://pf-front-git-route-emiandd.vercel.app/",
       failure: "http://www.failure.com",
       pending: "http://www.pending.com"
     },

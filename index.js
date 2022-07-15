@@ -11,7 +11,7 @@ import { preloadCountrys, preloadTypesPets } from './src/utils/preloadData.js';
 const PORT = process.env.PORT || 5000;
 async function main() {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     app.listen(PORT, () => {
 
       preloadCountrys();
