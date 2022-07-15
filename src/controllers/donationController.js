@@ -10,12 +10,15 @@ export const createDonation = async (req, res) => {
     console.log('data.id: ', data.id);
     console.log('payment: ', payment);
     if (payment) {
-      const { metadata } = payment;
-      const newFavouritePet = await Donations.create({
-        fromUserId: metadata.from_user.id,
-        toUserId: metadata.to_user.id
-      })
-      return res.status(201).json({ data: newFavouritePet, message: "successfully donated" })
+      const { metadata, status, status_detail } = payment;
+      if (status === 'approved' && status_detail === 'accredited') {
+        const newFavouritePet = await Donations.create({
+          fromUserId: metadata.from_user.id,
+          toUserId: metadata.to_user.id,
+          state: status
+        })
+        return res.status(201).json({ data: newFavouritePet, message: "successfully donated" })
+      }
     }
     return res.status(200).json({ data: req.body });
   } catch (error) {
