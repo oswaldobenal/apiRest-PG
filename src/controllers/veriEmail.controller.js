@@ -2,7 +2,7 @@ import { User } from "../models/User.js";
 import jwt from "jsonwebtoken";
 import { sendEmails } from "../helpers/sendEmails.js";
 import { encrypt } from "../helpers/handleBcrypt.js";
-import { tokenSing } from "../helpers/handleJwt.js";
+import { autoMail } from "../helpers/sendEmails.js";
 
 const { URL_FRONT, JWT_SECRET } = process.env;
 const url = URL_FRONT || "localhost:5000";
@@ -80,8 +80,13 @@ export const petiPass = async (req, res) => {
                 expiresIn: 900,
             }
             );
+            let button ={text: "recuperar contraseña", link: `http://${url}/api/v1.0/verify/modpass/${token}`}
+            let info = "has solicitado una recuperacion de contraseña, si no lo hiciste ignora este mensaje"
+            let from = "password recovery";
+            let to = email;
+            let titulo = "recuperacion de contraseña"
 
-            sendEmails("Password recovery", email, "Password recovery", `<a href="http://${url}/api/v1.0/verify/modpass/${token}">click here<a>`)
+            autoMail(from, to, from,titulo, info, button)
 
             res.json({msg: "send email"})
         
