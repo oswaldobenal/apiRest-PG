@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { upload } from "../middlewares/cloudinary.js";
+import favouritePet from "./favouritePet.routes.js";
+
 import {
-  getPets,
+  getAllPets,
+  getPetsById,
   createPets,
   updatePets,
   deletePets,
@@ -11,8 +14,10 @@ import { authMiddleware } from "../middlewares/session.js";
 
 const router = Router();
 
-router.get("/", getPets);
-router.get("/:id", getPets);
+router.use('/favourite', favouritePet)
+
+router.get("/", getAllPets);
+router.get("/:id", getPetsById);
 router.post(
   "/",
   authMiddleware,

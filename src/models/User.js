@@ -3,6 +3,8 @@ import { sequelize } from "../database/database.js";
 import { City } from "./City.js";
 import { Country } from "./Country.js";
 import { Pets } from "./Pets.js";
+import { UserPetsFavourite } from './FavouritePet.js';
+import { Donations } from './Donations.js';
 
 export const User = sequelize.define(
   "user",
@@ -87,4 +89,27 @@ City.hasMany(User, {
 User.belongsTo(City, {
   foreignKey: "cityId",
   targetId: "id",
+});
+
+Pets.belongsToMany(User, {
+  through: UserPetsFavourite,
+  foreignKey: "userId",
+  targetId: "id"
+});
+
+User.belongsToMany(Pets, {
+  through: UserPetsFavourite,
+  foreignKey: "petId",
+  targetId: "id"
+});
+
+User.belongsToMany(User, {
+  through: Donations,
+  as: "from",
+  foreignKey: "fromUserId"
+});
+User.belongsToMany(User, {
+  through: Donations,
+  as: "to",
+  foreignKey: "toUserId"
 });
