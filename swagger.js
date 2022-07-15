@@ -5,7 +5,7 @@ const doc = {
     title: 'Api Rest Adoptame',
     description: 'La documentacion',
   },
-  host: 'restapi-adoptame.up.railway.app',
+  host: 'api-rest-adoptame.up.railway.app',
   schemes: ['https'],
 };
 
