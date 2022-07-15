@@ -28,7 +28,10 @@ const router = Router();
 router.use('/countries', countries);
 router.use('/cities', cities);
 router.use('/user', user);
+//...
+// #swagger.tags = ['Usuarios']
 router.use('/pets', pets);
+//...
 router.use('/auth', auth);
 
 router.use('/type-pet', typePet);

@@ -2,10 +2,10 @@
   "swagger": "2.0",
   "info": {
     "title": "Api Rest Adoptame",
-    "description": "La documentacion",
+    "description": "Documentación_",
     "version": "1.0.0"
   },
-  "host": "restapi-adoptame.up.railway.app",
+  "host": "api-rest-adoptame.up.railway.app",
   "basePath": "/",
   "schemes": [
     "https"
@@ -216,6 +216,9 @@
     },
     "/api/v1.0/pets/": {
       "get": {
+        "tags": [
+          "PETS"
+        ],
         "description": "",
         "parameters": [
           {
@@ -234,7 +237,13 @@
         }
       },
       "post": {
+        "tags": [
+          "PETS"
+        ],
         "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
             "name": "authorization",
@@ -242,55 +251,95 @@
             "type": "string"
           },
           {
+            "name": "photos",
+            "in": "formData",
+            "type": "file",
+            "required": false,
+            "description": "Selecciona una foto",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "file"
+            }
+          },
+          {
             "name": "body",
             "in": "body",
+            "description": "Some description...",
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "user_test"
                 },
                 "typeId": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "dog"
                 },
                 "breedId": {
-                  "example": "any"
+                  "type": "number",
+                  "example": 2
                 },
                 "typeHair": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "short"
                 },
                 "specialCares": {
-                  "example": "any"
+                  "type": "boolean",
+                  "example": false
                 },
                 "castrated": {
-                  "example": "any"
+                  "type": "boolean",
+                  "example": false
                 },
                 "gender": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "male"
                 },
                 "environment": {
-                  "example": "any"
+                  "type": "object",
+                  "properties": {
+                    "children": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "dogs": {},
+                    "cats": {}
+                  }
                 },
                 "tags": {
-                  "example": "any"
+                  "type": "array",
+                  "example": [
+                    "friendly",
+                    "affectionate"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
                 },
                 "size": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "medium"
                 },
                 "color": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "marron"
                 },
                 "age": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "young"
                 },
                 "health": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "vaccinations up to date"
                 },
                 "description": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "happy dog"
                 },
                 "userId": {
-                  "example": "any"
+                  "type": "number",
+                  "example": 1
                 }
               }
             }
@@ -311,6 +360,9 @@
     },
     "/api/v1.0/pets/{id}": {
       "get": {
+        "tags": [
+          "PETS"
+        ],
         "description": "",
         "parameters": [
           {
@@ -330,6 +382,9 @@
         }
       },
       "put": {
+        "tags": [
+          "PETS"
+        ],
         "description": "",
         "parameters": [
           {
@@ -414,6 +469,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "PETS"
+        ],
         "description": "",
         "parameters": [
           {
@@ -443,6 +501,9 @@
     },
     "/api/v1.0/pets/favourite/": {
       "get": {
+        "tags": [
+          "PETS/FAVOURITE"
+        ],
         "description": "",
         "parameters": [],
         "responses": {
@@ -455,6 +516,9 @@
         }
       },
       "post": {
+        "tags": [
+          "PETS/FAVOURITE"
+        ],
         "description": "",
         "parameters": [
           {
@@ -483,6 +547,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "PETS/FAVOURITE"
+        ],
         "description": "",
         "parameters": [
           {
@@ -508,6 +575,9 @@
     },
     "/api/v1.0/pets/favourite/{userId}": {
       "get": {
+        "tags": [
+          "PETS/FAVOURITE"
+        ],
         "description": "",
         "parameters": [
           {
@@ -752,6 +822,17 @@
           },
           "400": {
             "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/v1.0/donations/success": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

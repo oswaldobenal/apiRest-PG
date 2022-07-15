@@ -44,6 +44,7 @@ const findByPkPets = async (id) => {
 }
 
 export const getFavouritePetsByUser = async (req, res) => {
+  // #swagger.tags = ['PETS/FAVOURITE']
   try {
     const { userId } = req.params;
     if (userId) {
@@ -62,6 +63,7 @@ export const getFavouritePetsByUser = async (req, res) => {
 }
 
 export const getFavouritePets = async (req, res) => {
+  // #swagger.tags = ['PETS/FAVOURITE']
   try {
     const allPetsFavorites = await UserPetsFavourite.findAll();
     const allDetailPets = allPetsFavorites.map(userPet => findByPkPets(userPet.petId));
@@ -73,6 +75,7 @@ export const getFavouritePets = async (req, res) => {
 }
 
 export const createFavouritePet = async (req, res) => {
+  // #swagger.tags = ['PETS/FAVOURITE']
   try {
     const { userId, petId } = req.body;
 
@@ -87,6 +90,7 @@ export const createFavouritePet = async (req, res) => {
 }
 
 export const deleteFafouritePet = async (req, res) => {
+  // #swagger.tags = ['PETS/FAVOURITE']
   try {
     const { userId, petId } = req.query;
     const responseDeleted = await UserPetsFavourite.destroy({

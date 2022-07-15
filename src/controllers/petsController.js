@@ -6,6 +6,7 @@ import { deleteFile } from '../middlewares/cloudinary.js';
 import { findAllPets, findByPkPets } from '../models/Views/pets.views.js';
 
 export const getPetsById = async (req, res) => {
+  // #swagger.tags = ['PETS']
   try {
     const { id } = req.params;
 
@@ -20,6 +21,7 @@ export const getPetsById = async (req, res) => {
 }
 
 export const getAllPets = async (req, res) => {
+  // #swagger.tags = ['PETS']
   try {
     const { name } = req.query;
 
@@ -41,6 +43,40 @@ export const getAllPets = async (req, res) => {
 }
 
 export const createPets = async (req, res) => {
+  /*
+  #swagger.tags = ['PETS']
+  #swagger.consumes = ['multipart/form-data']  
+  #swagger.parameters['photos'] = {
+      in: 'formData',
+      type: 'file',
+      required: 'false',
+      description: 'Selecciona una foto',
+      collectionFormat: 'multi',
+      items: { type: 'file' }
+  }
+  #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Some description...',
+      schema: {
+        name: "user_test",
+        typeId: "dog",
+        breedId: 2,
+        typeHair: "short",
+        specialCares: false,
+        castrated: false,
+        gender: "male",
+        environment: {"children": true,"dogs": null,"cats": null},
+        tags: ["friendly", "affectionate"],
+        size: "medium",
+        color: "marron",
+        age: "young",
+        health: "vaccinations up to date",
+        description: "happy dog",
+        userId: 1
+      }
+  }
+  */
+
   const images = req?.files?.length
     ? req.files.map(image => image.path)
     : [];
@@ -108,6 +144,7 @@ export const createPets = async (req, res) => {
 }
 
 export const updatePets = async (req, res) => {
+  // #swagger.tags = ['PETS']
   const imageUploadUrls = req?.files?.length
     ? req.files.map(image => image.path)
     : [];
@@ -200,6 +237,7 @@ export const updatePets = async (req, res) => {
 }
 
 export const deletePets = async (req, res) => {
+  // #swagger.tags = ['PETS']
   try {
     const { id } = req.params;
     const pet = await Pets.findByPk(id);
