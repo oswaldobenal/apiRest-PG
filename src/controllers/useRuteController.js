@@ -3,15 +3,15 @@ import { City } from "../models/City.js";
 import { Country } from "../models/Country.js";
 import { Pets } from "../models/Pets.js";
 import { User } from "../models/User.js";
-import { deleteFile } from "../middlewares/cloudinary.js";
+// import { deleteFile } from "../middlewares/cloudinary.js";
 import { Solicitudes } from "../models/Solicitudes.js";
 
 /// POST USER
 export const createUser = async (req, res) => {
-  const documentfile = req.files.map((d) => d.path);
-  const idfiles = req.files.map((d) =>
-    d.filename.slice(d.filename.lastIndexOf("/") + 1)
-  );
+  // const documentfile = req.files.map((d) => d.path);
+  // const idfiles = req.files.map((d) =>
+  //   d.filename.slice(d.filename.lastIndexOf("/") + 1)
+  // );
   const {
     name,
     lastName,
@@ -25,6 +25,7 @@ export const createUser = async (req, res) => {
     address,
     phone,
     role,
+    document
   } = req.body;
   try {
     const user = await User.findOne({
@@ -47,7 +48,7 @@ export const createUser = async (req, res) => {
               email,
               role,
               active: false,
-              document: documentfile[0],
+              document: document
             });
             //password set in undefined for security
             userFundation.set("password", undefined, { strict: false });
@@ -96,7 +97,7 @@ export const createUser = async (req, res) => {
       }
       return res.status(404).json({ error: "City and Country is required " });
     } else {
-      deleteFile(idfiles);
+      // deleteFile(idfiles);
       return res.status(400).send({ Error: "email already exist!!" });
     }
     // const data = {
@@ -105,7 +106,7 @@ export const createUser = async (req, res) => {
     // };
     // return res.send(data);
   } catch (error) {
-    deleteFile[idfiles];
+    // deleteFile[idfiles];
     return res.status(500).json({ message: error.message });
   }
 };
