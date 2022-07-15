@@ -4,16 +4,20 @@ import { getPaymentByIdService } from '../services/PaymentService.js';
 export const createDonation = async (req, res) => {
   try {
     const { data } = req.body;
-    const payment = await getPaymentByIdService(data.id);
-    if (payment) {
-      const { metadata } = payment;
-      const newFavouritePet = await Donations.create({
-        fromUserId: metadata.from_user.id,
-        toUserId: metadata.from_user.id
-      })
-      return res.status(201).json({ data: newFavouritePet, message: "successfully donated" })
-    }
+    console.log('req.body', req.body);
+    console.log('req.query', req.query);
+    /*     const payment = await getPaymentByIdService(data.id);
+        if (payment) {
+          const { metadata } = payment;
+          const newFavouritePet = await Donations.create({
+            fromUserId: metadata.from_user.id,
+            toUserId: metadata.from_user.id
+          })
+          return res.status(201).json({ data: newFavouritePet, message: "successfully donated" })
+        } */
+    return res.status(200).json({ data: req.body });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ message: error.message });
   }
 }
