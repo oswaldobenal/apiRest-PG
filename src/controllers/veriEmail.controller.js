@@ -30,7 +30,15 @@ export const veriEmail = async (req, res) => {
                 }
                 );
 
-                sendEmails("Verification email", email, "Verification email",`<a href="http://${url}/api/v1.0/verify/tk/${token}">click here<a>`)
+
+                //let url2 ="adoptame.vercel.app/email-confirmed"
+                let button ={text: "confirmacion de correo", link: `http://${url}/api/v1.0/verify/tk/${token}`}
+                let info = "Te has registrado exitosamente en adoptaMe, por favor confirma tu correo abajo"
+                let from = "Verification email";
+                let to = email;
+                let titulo = "verificacion de correo electronico"
+
+                autoMail(from, to, from,titulo, info, button)
                 
                 
                 res.status(200).json({msg: "send email"})
@@ -80,6 +88,8 @@ export const petiPass = async (req, res) => {
                 expiresIn: 900,
             }
             );
+            //let button ={text: "recuperar contraseña", link: `http://${url}/api/v1.0/verify/modpass/${token}`}
+            //let url2= "adoptame.vercel.app/reset/confirm"
             let button ={text: "recuperar contraseña", link: `http://${url}/api/v1.0/verify/modpass/${token}`}
             let info = "has solicitado una recuperacion de contraseña, si no lo hiciste ignora este mensaje"
             let from = "password recovery";

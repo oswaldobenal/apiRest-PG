@@ -14,10 +14,10 @@ let transporter = nodemailer.createTransport({
 
 export const sendEmails = async (from, to, subject, html) => {
     await transporter.sendMail({
-        from: `${from} <adoptaMe>`, // sender address
-        to: to, // list of receivers
-        subject: subject, // Subject line
-        html: html, // html body
+        from: `${from} <adoptaMe>`,
+        to: to,
+        subject: subject,
+        html: html,
       });
 }
 
