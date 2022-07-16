@@ -4,6 +4,9 @@ import { data } from "../database/countries.js";
 import { TypePet } from "../models/Typepet.js";
 import { BreedPet } from "../models/Breedpet.js";
 import { typesPets } from "../database/typePets.js";
+import { organizations } from "../database/fundations.js";
+import { User } from "../models/User.js";
+import { encrypt, compare } from "../helpers/handleBcrypt.js";
 
 export const preloadCountrys = async () => {
   try {
@@ -52,3 +55,37 @@ export const preloadTypesPets = async () => {
     console.log(error);
   }
 };
+
+export const preloadFundations= async()=>{
+  const password= "Test1@";
+  const passwordHash = await encrypt(password);
+
+  try {
+    for (let i = 0; i < organizations.length; i++) {
+      
+      await User.findOrCreate({
+        where:{
+          name:organizations[i].name,
+          lastName:"apellido",
+          email:organizations[i].email,
+          password:passwordHash,
+          address:organizations[i].address.address1,
+          phone:"111111",
+          role:"fundation",
+          countryId:organizations[i].address.country,
+          cityId:organizations[i].address.city
+
+
+
+
+  
+        }
+      })
+      
+      
+    }
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
