@@ -9,6 +9,10 @@ import { Pets } from "../models/Pets.js";
 import { User } from '../models/User.js';
 import pet from "../database/pets.js";
 import { generateDataPets } from '../helpers/generateData.js';
+import { organizations } from "../database/fundations.js";
+import { encrypt, compare } from "../helpers/handleBcrypt.js";
+import { users } from "../database/precargaUsers.js";
+
 
 export const preloadCountrys = async () => {
   try {
@@ -91,3 +95,57 @@ export const preloadPets = async (results) => {
     console.log(error);
   }
 };
+
+export const preloadFundations= async()=>{
+  const password= "Test1@";
+  const passwordHash = await encrypt(password);
+  try {
+    for (let i = 0; i < organizations.length; i++) {
+      
+      await User.findOrCreate({
+        where:{
+          name:organizations[i].name,
+          lastName:"apellido",
+          email:organizations[i].email,
+          password:passwordHash,
+          address:organizations[i].address.address1,
+          phone:"111111",
+          role:"fundation",
+          countryId:organizations[i].address.country,
+          cityId:organizations[i].address.city  
+        }
+      })
+      
+
+    }
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
+export const preloadUser= async()=>{
+  const password= "Test1@";
+  const passwordHash = await encrypt(password);
+  try {
+    for (let i = 0; i < users.length; i++) {
+      
+      await User.findOrCreate({
+        where:{
+          name:users[i].name,
+          lastName:users[i].lastName,
+          email:users[i].email,
+          password:passwordHash,
+          address:users[i].address,
+          phone:users[i].phone,
+          role:users[i].role,
+          countryId:users[i].countryId,
+          cityId:users[i].cityId  
+         }
+      })
+  
+    }
+    
+  } catch (error) {
+    console.log(error)
+  }
+}

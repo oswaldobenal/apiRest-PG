@@ -7,7 +7,8 @@ import "./src/models/Typepet.js";
 import "./src/models/Breedpet.js";
 import "./src/models/Colorpet.js";
 import "./src/models/Solicitudes.js";
-import { preloadCountrys, preloadTypesPets, preloadColorsPets, preloadPets } from './src/utils/preloadData.js';
+
+import { preloadCountrys, preloadTypesPets,preloadFundations, preloadColorsPets, preloadUser, preloadPets } from './src/utils/preloadData.js';
 
 const PORT = process.env.PORT || 5000;
 async function main() {
@@ -15,11 +16,13 @@ async function main() {
     const _FORCE = true;
     await sequelize.sync({ force: _FORCE });
     app.listen(PORT, async () => {
-      await preloadTypesPets();
-      await preloadCountrys();
-      await preloadColorsPets();
-      _FORCE && await preloadPets(10);
-      console.log(`Server runing in port ${PORT}`);
+       await preloadCountrys();
+       await preloadTypesPets();
+       await preloadColorsPets();
+       await preloadFundations();
+       await preloadUser();
+       _FORCE && await preloadPets(10);
+       console.log(`Server runing in port ${PORT}`);
     });
   } catch (error) {
     console.error("Unable to connect to the database " + error.message);

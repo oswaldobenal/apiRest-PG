@@ -155,6 +155,7 @@ export const getDetailUser = async (req, res) => {
           address: user.address,
           phone: user.phone,
           active: user.active,
+          verification:user.verification,
           document: user.document,
           pets: pets.map((e) => e),
           solcitudes: soli.map((e) => e),

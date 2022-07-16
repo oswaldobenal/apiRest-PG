@@ -13,6 +13,12 @@ export const Country = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    currency: {
+      type: DataTypes.STRING,
+    },
+    symbol: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,
