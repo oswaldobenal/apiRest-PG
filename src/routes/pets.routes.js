@@ -20,7 +20,7 @@ router.get("/", getAllPets);
 router.get("/:id", getPetsById);
 router.post(
   "/",
-  // authMiddleware,
+  authMiddleware,
   upload.array("photos"),
   validatorPets,
   createPets

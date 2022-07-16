@@ -99,3 +99,13 @@ Pets.belongsTo(TypePet, {
   foreignKey: "typeId",
   targetId: "id",
 });
+
+ColorPet.hasMany(Pets, {
+  foreignKey: "colorId",
+  sourceKey: "id",
+});
+
+Pets.belongsTo(ColorPet, {
+  foreignKey: "colorId",
+  targetId: "id",
+});

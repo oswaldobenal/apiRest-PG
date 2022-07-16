@@ -7,16 +7,18 @@ import "./src/models/Typepet.js";
 import "./src/models/Breedpet.js";
 import "./src/models/Colorpet.js";
 import "./src/models/Solicitudes.js";
-import { preloadCountrys, preloadTypesPets, preloadColorsPets } from './src/utils/preloadData.js';
+import { preloadCountrys, preloadTypesPets, preloadColorsPets, preloadPets } from './src/utils/preloadData.js';
 
 const PORT = process.env.PORT || 5000;
 async function main() {
   try {
-    await sequelize.sync({ force: true });
+    const _FORCE = true;
+    await sequelize.sync({ force: _FORCE });
     app.listen(PORT, async () => {
       await preloadTypesPets();
       await preloadCountrys();
       await preloadColorsPets();
+      _FORCE && await preloadPets(5);
       console.log(`Server runing in port ${PORT}`);
     });
   } catch (error) {

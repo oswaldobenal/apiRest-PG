@@ -32,7 +32,7 @@ export const createDonation = async (req, res) => {
         return res.status(201).json({ data: newFavouritePet, message: "successfully donated" })
       }
     }
-    return res.status(200).json({ data: req.body });
+    return res.status(4700).json({ data: req.body });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: error.message });

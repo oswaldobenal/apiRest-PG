@@ -5,7 +5,10 @@ import { TypePet } from "../models/Typepet.js";
 import { BreedPet } from "../models/Breedpet.js";
 import { typesPets } from "../database/typePets.js";
 import { ColorPet } from "../models/Colorpet.js";
+import { Pets } from "../models/Pets.js";
+import { User } from '../models/User.js';
 import pet from "../database/pets.js";
+import { generateDataPets } from '../helpers/generateData.js';
 
 export const preloadCountrys = async () => {
   try {
@@ -59,7 +62,7 @@ export const preloadColorsPets = async () => {
       await ColorPet.findOrCreate({
         where: {
           nameColor: pet.cat.colors[i],
-          typeId: 'cat',
+          typeId: pet.cat.type,
         },
       });
     }
@@ -67,10 +70,23 @@ export const preloadColorsPets = async () => {
       await ColorPet.findOrCreate({
         where: {
           nameColor: pet.dog.colors[i],
-          typeId: 'dog',
+          typeId: pet.dog.type,
         },
       });
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const preloadPets = async (results) => {
+  try {
+    let responseIds = await User.findAll({
+      attributes: ['id'],
+      raw: true
+    });
+    const ids = responseIds.map(user => user.id);
+    await Pets.bulkCreate(await generateDataPets(results, ids));
   } catch (error) {
     console.log(error);
   }
