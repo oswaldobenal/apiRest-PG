@@ -31,8 +31,8 @@ export const veriEmail = async (req, res) => {
                 );
 
 
-                //let url2 ="adoptame.vercel.app/email-confirmed"
-                let button ={text: "confirmacion de correo", link: `http://${url}/api/v1.0/verify/tk/${token}`}
+                let url2 ="adoptame.vercel.app/email-confirmed"
+                let button ={text: "confirmacion de correo", link: `http://${url2}/api/v1.0/verify/tk/${token}`}
                 let info = "Te has registrado exitosamente en adoptaMe, por favor confirma tu correo abajo"
                 let from = "Verification email";
                 let to = email;
@@ -89,8 +89,8 @@ export const petiPass = async (req, res) => {
             }
             );
             //let button ={text: "recuperar contraseña", link: `http://${url}/api/v1.0/verify/modpass/${token}`}
-            //let url2= "adoptame.vercel.app/reset/confirm"
-            let button ={text: "recuperar contraseña", link: `http://${url}/api/v1.0/verify/modpass/${token}`}
+            let url2= "adoptame.vercel.app/reset/confirm"
+            let button ={text: "recuperar contraseña", link: `http://${url2}/api/v1.0/verify/modpass/${token}`}
             let info = "has solicitado una recuperacion de contraseña, si no lo hiciste ignora este mensaje"
             let from = "password recovery";
             let to = email;
