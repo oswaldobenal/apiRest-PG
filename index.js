@@ -6,7 +6,7 @@ import "./src/models/User.js";
 import "./src/models/Breedpet.js";
 import "./src/models/Typepet.js";
 import "./src/models/Solicitudes.js";
-import { preloadCountrys, preloadTypesPets,preloadFundations } from './src/utils/preloadData.js';
+import { preloadCountrys, preloadTypesPets,preloadFundations, preloadUser } from './src/utils/preloadData.js';
 
 const PORT = process.env.PORT || 5000;
 async function main() {
@@ -16,6 +16,7 @@ async function main() {
        await preloadCountrys();
        await preloadTypesPets();
        await preloadFundations();
+       await preloadUser();
 
       console.log(`Server runing in port ${PORT}`);
     });

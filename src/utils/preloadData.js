@@ -7,6 +7,7 @@ import { typesPets } from "../database/typePets.js";
 import { organizations } from "../database/fundations.js";
 import { User } from "../models/User.js";
 import { encrypt, compare } from "../helpers/handleBcrypt.js";
+import { users } from "../database/precargaUsers.js";
 
 export const preloadCountrys = async () => {
   try {
@@ -15,8 +16,6 @@ export const preloadCountrys = async () => {
         where: {
           id: data.countries[i].iso3,
           name: data.countries[i].country,
-          currency: data.countries[i].currency,
-          symbol: data.countries[i].symbol,
         },
       });
       for (let j = 0; j < data.countries[i].cities.length; j++) {
@@ -59,7 +58,6 @@ export const preloadTypesPets = async () => {
 export const preloadFundations= async()=>{
   const password= "Test1@";
   const passwordHash = await encrypt(password);
-
   try {
     for (let i = 0; i < organizations.length; i++) {
       
@@ -73,16 +71,37 @@ export const preloadFundations= async()=>{
           phone:"111111",
           role:"fundation",
           countryId:organizations[i].address.country,
-          cityId:organizations[i].address.city
-
-
-
-
-  
+          cityId:organizations[i].address.city  
         }
       })
       
+
+    }
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
+export const preloadUser= async()=>{
+  const password= "Test1@";
+  const passwordHash = await encrypt(password);
+  try {
+    for (let i = 0; i < users.length; i++) {
       
+      await User.findOrCreate({
+        where:{
+          name:users[i].name,
+          lastName:users[i].lastName,
+          email:users[i].email,
+          password:passwordHash,
+          address:users[i].address,
+          phone:users[i].phone,
+          role:users[i].role,
+          countryId:users[i].countryId,
+          cityId:users[i].cityId  
+         }
+      })
+  
     }
     
   } catch (error) {
