@@ -12,10 +12,9 @@ const PORT = process.env.PORT || 5000;
 async function main() {
   try {
     await sequelize.sync({ force: true });
-    app.listen(PORT, () => {
-
-      preloadCountrys();
-      preloadTypesPets();
+    app.listen(PORT,async () => {
+      await preloadCountrys();
+      await preloadTypesPets();
       console.log(`Server runing in port ${PORT}`);
     });
   } catch (error) {
