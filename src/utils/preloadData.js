@@ -97,7 +97,7 @@ export const preloadPets = async (results) => {
 };
 
 export const preloadFundations= async()=>{
-  const password= "Test1@";
+  const password= "Test18@@";
   const passwordHash = await encrypt(password);
   try {
     for (let i = 0; i < organizations.length; i++) {
@@ -124,7 +124,7 @@ export const preloadFundations= async()=>{
   }
 }
 export const preloadUser= async()=>{
-  const password= "Test1@";
+  const password= "Test18@@";
   const passwordHash = await encrypt(password);
   try {
     for (let i = 0; i < users.length; i++) {
