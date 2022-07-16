@@ -25,7 +25,7 @@ export const createDonation = async (req, res) => {
           toUserId: metadata.to_user.id,
           status,
           status_detail,
-          comision_amount: fee_details.amount,
+          comision_amount: fee_details[0].amount,
           acredit_amount: transaction_details.net_received_amount,
           total_amount: transaction_details.total_paid_amount,
         })
