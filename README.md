@@ -1,5 +1,3 @@
-<h1 align="center"> API AdoptaMe </h1>
-
 ![logotipo adoptaMe](./src/img/unnamed.png)
 
 <p align="center">
