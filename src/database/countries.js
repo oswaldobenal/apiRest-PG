@@ -5,6 +5,8 @@ export const data = {
       iso2: "AR",
       iso3: "ARG",
       country: "Argentina",
+      currency: "ARS",
+      symbol: "$",
       cities: [
         "28 de Noviembre",
         "Abasto",
@@ -590,6 +592,8 @@ export const data = {
       iso2: "CL",
       iso3: "CHL",
       country: "Chile",
+      currency: "CLP",
+      symbol: "$",
       cities: [
         "Algarrobo",
         "Angol",
@@ -718,12 +722,16 @@ export const data = {
       iso2: "CO",
       iso3: "COL",
       country: "Colombia",
+      currency: "COP",
+      symbol: "$",
       cities: citiesColombia.map((el) => el),
     },
     {
       iso2: "EC",
       iso3: "ECU",
       country: "Ecuador",
+      currency: "USD",
+      symbol: "U$S",
       cities: [
         "Alausí",
         "Ambato",
@@ -811,6 +819,8 @@ export const data = {
       iso2: "PE",
       iso3: "PER",
       country: "Peru",
+      currency: "PEN",
+      symbol: "S/",
       cities: [
         "Abancay",
         "Arequipa",

@@ -8,6 +8,8 @@ export const getCountries = async (req, res) => {
       return {
         id: el.iso3,
         name: el.country,
+        currency: el.currency,
+        symbol: el.symbol,
       };
     });
     countries.forEach((country) => {
@@ -15,6 +17,8 @@ export const getCountries = async (req, res) => {
         where: {
           id: country.id,
           name: country.name,
+          currency: el.currency,
+          symbol: el.symbol,
         },
       });
     });
@@ -23,4 +27,3 @@ export const getCountries = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
