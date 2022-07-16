@@ -34,7 +34,7 @@ router.use('/auth', auth);
 router.use('/type-pet', typePet);
 router.use('/breed-pet', breedPet);
 
-router.use('/dataPetsFake', petsDataFake);
+router.use('/addPets', petsDataFake);
 
 router.use('/verify', veriEmail);
 
