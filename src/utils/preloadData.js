@@ -15,6 +15,8 @@ export const preloadCountrys = async () => {
         where: {
           id: data.countries[i].iso3,
           name: data.countries[i].country,
+          currency: data.countries[i].currency,
+          symbol: data.countries[i].symbol,
         },
       });
       for (let j = 0; j < data.countries[i].cities.length; j++) {

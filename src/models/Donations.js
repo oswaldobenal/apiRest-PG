@@ -12,11 +12,23 @@ export const Donations = sequelize.define('donations', {
     allowNull: false,
     defaultValue: new Date()
   },
-  state: {
+  status: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  amount: {
+  status_detail: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  comision_amount: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  acredit_amount: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  total_amount: {
     type: DataTypes.FLOAT,
     allowNull: false,
   }
