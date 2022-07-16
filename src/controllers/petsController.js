@@ -2,6 +2,7 @@ import { Pets } from '../models/Pets.js';
 import { User } from '../models/User.js';
 import { TypePet } from '../models/Typepet.js';
 import { BreedPet } from '../models/Breedpet.js';
+import { ColorPet } from '../models/Colorpet.js';
 import { deleteFile } from '../middlewares/cloudinary.js';
 import { findAllPets, findByPkPets } from '../models/Views/pets.views.js';
 
@@ -61,7 +62,7 @@ export const createPets = async (req, res) => {
         name: "user_test",
         typeId: "dog",
         breedId: 2,
-        typeHair: "short",
+        coat: "short",
         specialCares: false,
         castrated: false,
         gender: "male",
@@ -78,8 +79,7 @@ export const createPets = async (req, res) => {
   */
 
   const images = req?.files?.length
-    ? req.files.map(image => image.path)
-    : [];
+    ? req.files.map(image => image.path) : [];
   const idFiles = req?.files?.length
     ? req.files.map(img => img.filename.slice(img.filename.lastIndexOf('/') + 1))
     : [];
@@ -88,45 +88,54 @@ export const createPets = async (req, res) => {
       name,
       typeId,
       breedId,
-      typeHair,
-      specialCares,
-      castrated,
-      gender,
-      environment,
-      tags,
-      size,
-      color,
+      colorId,
       age,
+      gender,
+      size,
+      coat,
       health,
       description,
+      tags,
+      castrated,
+      attributes,
+      environment,
       userId
     } = req.body;
 
     const user = await User.findByPk(userId);
     const type = await TypePet.findByPk(typeId);
     const breed = await BreedPet.findByPk(breedId);
+    const color = await ColorPet.findByPk(colorId);
 
     if (user) {
+      console.log('attributes: ', attributes);
+      console.log('environment: ', environment);
+      let attributes_ = typeof attributes === 'object' ? JSON.stringify(attributes) : attributes
+      let environment_ = typeof environment === 'object' ? JSON.stringify(environment) : environment
+      console.log(attributes_);
+      console.log(environment_);
+
       const newPet = await Pets.create({
         name,
-        typeId,
-        breedId,
-        typeHair,
-        specialCares: typeof specialCares === "boolean" ? specialCares : specialCares == "true",
-        castrated: typeof castrated === "boolean" ? castrated : castrated == "true",
-        gender,
-        environment: typeof environment === 'object' ? JSON.stringify(environment) : environment,
-        tags,
-        size,
-        color,
         age,
+        gender,
+        size,
+        coat,
         health,
         description,
-        photos: images
+        tags,
+        castrated: typeof castrated === "boolean" ? castrated : castrated == "true",
+        attributes: typeof attributes === 'object' ? JSON.stringify(attributes) : attributes,
+        environment: typeof environment === 'object' ? JSON.stringify(environment) : environment,
+        photos: images,
       });
+
+      // dependencies
       await newPet.setUser(user);
       await newPet.setTypepet(type);
       await newPet.setBreedpet(breed);
+      await newPet.setColorpet(color);
+
       const detailPetCreated = await findByPkPets(newPet.id);
       return res.status(201).json({ data: detailPetCreated, message: 'successfully created pet' });
     }
@@ -157,24 +166,26 @@ export const updatePets = async (req, res) => {
       name,
       typeId,
       breedId,
-      typeHair,
+      coat,
       specialCares,
       castrated,
       gender,
       environment,
       tags,
       size,
-      color,
       age,
       health,
       description,
       status,
       urlPhotosDb,
+      colorId,
+      attributes,
     } = req.body;
 
     const pet = await Pets.findByPk(id);
     const breed = await BreedPet.findByPk(breedId);
     const type = await TypePet.findByPk(typeId);
+    const color = await ColorPet.findByPk(colorId);
 
     const urlsDb = urlPhotosDb === "" ? [] : urlPhotosDb;
 
@@ -192,7 +203,7 @@ export const updatePets = async (req, res) => {
 
       const petUpdated = await Pets.update({
         name,
-        typeHair,
+        coat,
         specialCares: typeof specialCares === "boolean" ? specialCares : specialCares == "true",
         castrated: typeof castrated === "boolean" ? castrated : castrated == "true",
         gender,
@@ -204,7 +215,8 @@ export const updatePets = async (req, res) => {
         health,
         description,
         photos: urlsDb.concat(imageUploadUrls),
-        status
+        status,
+        attributes: typeof attributes === 'object' ? JSON.stringify(attributes) : attributes
       }, {
         where: {
           id

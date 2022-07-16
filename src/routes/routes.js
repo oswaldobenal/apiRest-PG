@@ -23,17 +23,12 @@ import petsDataFake from "./petsDataFake.routes.js";
 
 import veriEmail from "./veriEmail.routes.js"
 
-import automail from "./autoMail.routes.js"
-
 const router = Router();
 
 router.use('/countries', countries);
 router.use('/cities', cities);
 router.use('/user', user);
-//...
-// #swagger.tags = ['Usuarios']
 router.use('/pets', pets);
-//...
 router.use('/auth', auth);
 
 router.use('/type-pet', typePet);
@@ -42,7 +37,6 @@ router.use('/breed-pet', breedPet);
 router.use('/dataPetsFake', petsDataFake);
 
 router.use('/verify', veriEmail);
-router.use('/auto', automail);
 
 router.use('/donations', donation);
 

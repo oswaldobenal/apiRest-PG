@@ -1,23 +1,24 @@
 import { check } from 'express-validator';
 import { validatorResultExpress } from './validatorResultExpress.js';
+import pets from '../database/pets.js';
 
 export default [
   check('name')
     .trim()
     .notEmpty().withMessage('Pet name can not be empty!'),
-  check('typeHair')
-    .isIn(['hairless', 'short', 'medium', 'long', 'wire', 'kinky']),
+  check('coat')
+    .isIn(pets.coats),
   check('tags')
-    .isIn(['friendly', 'affectionate', 'protective', 'smart', 'funny', 'quiet']),
+    .isIn(pets.tags),
   check('size')
-    .isIn(['small', 'medium', 'large', 'extra large']),
+    .isIn(pets.sizes),
   check('color')
     .trim()
     .notEmpty().withMessage('Pet color can not be empty!'),
   check('age')
-    .isIn(['puppy', 'young', 'adult', 'senior']),
+    .isIn(pets.ages),
   check('health')
-    .isIn(['vaccinations up to date', 'no vaccines']),
+    .isIn(pets.healths),
   check('description')
     .trim()
     .notEmpty().withMessage('Pet description can not be empty!'),
