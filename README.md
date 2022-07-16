@@ -1,6 +1,36 @@
-# apiRest-PG
+<h1 align="center"> API AdoptaMe </h1>
 
-## Crear un usuario
+![logotipo adoptaMe](./src/img/unnamed.png)
+
+<p align="center">
+   <img src="https://img.shields.io/badge/Estado-en%20Desarrollo-brightgreen">
+</p>
+
+# Índice
+
+* [Crear un usuario](#crear-un-usuario)
+* [Obtener los usuarios por ID](#obtener-los-usuarios-por-id)
+* [Obtener los usuarios](#obtener-los-usuarios)
+* [Actualizar Usuarios](#actualizar-usuarios)
+* [Login](#login)
+* [Obtener todos los paises](#obtener-todos-los-paises)
+* [Obtener ciudades por pais](#obtener-ciudades-por-pais)
+* [Crear una mascota](#crear-una-mascota)
+* [Obtener mascotas](#obtener-mascotas)
+* [Obtener mascota por ID](#obtener-mascota-por-id)
+* [Actualizar una mascota por ID](#actualiza-una-mascota-por-id)
+* [Obtener tipos de mascotas](#obtener-tipos-de-mascotas)
+* [Obtener tipos y razas de mascotas](#obtener-tipos-y-razas-de-mascotas)
+* [Obtener razas de mascotas por ID del tipo de mascota](#obtener-razas-de-mascotas-por-id-tipo-de-mascota)
+* [Obtener un numero de resultados random de mascotas](#obtener-un-numero-de-resultados-random-de-mascotas)
+* [Email de verificacion de usuario](#email-de-verificacion-de-usuario)
+* [Verificacion de usuario](#verificacion-de-usuario)
+* [Email de recuperacion de contraseña](#email-de-recuperacion-de-contraseña)
+* [Modificacion de contraseña por recuperacion](#modificacion-de-contraseña-por-recuperacion)
+* [Envio de email automatizado](#envio-de-emails-automatizado)
+
+
+# Crear un usuario
 
 ### Request
 
@@ -116,6 +146,154 @@
           "email": "example@test.com",
           "role": "user"
       }
+    }
+
+## Obtener todos los paises
+
+### Request
+
+`GET /countries/`
+
+    https://restapi-adoptame.up.railway.app/api/v1.0/countries/
+
+### Response
+
+    HTTP/1.1 200
+
+    [
+      {
+          "id": "ARG",
+          "name": "Argentina"
+      },
+      {
+          "id": "CHL",
+          "name": "Chile"
+      },
+      {
+          "id": "COL",
+          "name": "Colombia"
+      },
+      {
+          "id": "ECU",
+          "name": "Ecuador"
+      },
+      {
+          "id": "PER",
+          "name": "Peru"
+      }
+    ]
+
+## Obtener ciudades por pais
+
+### Request
+
+`GET /cities/{idCountry}`
+
+    https://restapi-adoptame.up.railway.app/api/v1.0/cities/{idCountry}
+
+### Response
+
+    HTTP/1.1 200
+
+    [
+      {
+          "id": 1,
+          "name": "28 de Noviembre",
+          "countryId": "ARG"
+      },
+      {
+          "id": 2,
+          "name": "Abasto",
+          "countryId": "ARG"
+      },
+      {
+          "id": 3,
+          "name": "Acassuso",
+          "countryId": "ARG"
+      },
+      {
+          "id": 4,
+          "name": "Acebal",
+          "countryId": "ARG"
+      },
+      {
+          "id": 5,
+          "name": "Acevedo",
+          "countryId": "ARG"
+      },
+      {...}
+    ]
+
+## Crear una Mascota
+
+### Request
+
+      Content-Type: multipart/form-data
+      Bearer: token
+
+    {
+        "userId": 1,
+        "name": "name pet",
+        "typeId": "dog",
+        "breedId": 2,
+        "typeHair": "short",
+        "specialCares": false,
+        "castrated": false,
+        "gender": "male",
+        "environment": {
+            "children": true,
+            "dogs": null,
+            "cats": null
+        },
+        "tags": [
+            "friendly",
+            "affectionate"
+        ],
+        "size": "medium",
+        "color": "marron",
+        "age": "young",
+        "health": "vaccinations up to date",
+        "description": "description pet",
+        "status": "adoptable",
+        "photos": []
+    }
+
+`POST /pets/`
+
+    https://restapi-adoptame.up.railway.app/api/v1.0/pets
+
+### Response
+
+    HTTP/1.1 201 Created
+
+    {
+      "data": {
+          "userId": 1,
+          "name": "name pet",
+          "typeId": "dog",
+          "breedId": 2,
+          "typeHair": "short",
+          "specialCares": false,
+          "castrated": false,
+          "gender": "male",
+          "environment": {
+              "children": true,
+              "dogs": null,
+              "cats": null
+          },
+          "tags": [
+              "friendly",
+              "affectionate"
+          ],
+          "size": "medium",
+          "color": "marron",
+          "age": "young",
+          "health": "vaccinations up to date",
+          "description": "description pet",
+          "status": "adoptable",
+          "photos": []
+      },
+      "message": "successfully created pet"
     }
 
 ## Obtener Mascotas
@@ -255,78 +433,6 @@
       "address": "04434 Gislason Forest"
     }
 
-## Crear una Mascota
-
-### Request
-
-      Content-Type: multipart/form-data
-      Bearer: token
-
-    {
-        "userId": 1,
-        "name": "name pet",
-        "typeId": "dog",
-        "breedId": 2,
-        "typeHair": "short",
-        "specialCares": false,
-        "castrated": false,
-        "gender": "male",
-        "environment": {
-            "children": true,
-            "dogs": null,
-            "cats": null
-        },
-        "tags": [
-            "friendly",
-            "affectionate"
-        ],
-        "size": "medium",
-        "color": "marron",
-        "age": "young",
-        "health": "vaccinations up to date",
-        "description": "description pet",
-        "status": "adoptable",
-        "photos": []
-    }
-
-`POST /pets/`
-
-    https://restapi-adoptame.up.railway.app/api/v1.0/pets
-
-### Response
-
-    HTTP/1.1 201 Created
-
-    {
-      "data": {
-          "userId": 1,
-          "name": "name pet",
-          "typeId": "dog",
-          "breedId": 2,
-          "typeHair": "short",
-          "specialCares": false,
-          "castrated": false,
-          "gender": "male",
-          "environment": {
-              "children": true,
-              "dogs": null,
-              "cats": null
-          },
-          "tags": [
-              "friendly",
-              "affectionate"
-          ],
-          "size": "medium",
-          "color": "marron",
-          "age": "young",
-          "health": "vaccinations up to date",
-          "description": "description pet",
-          "status": "adoptable",
-          "photos": []
-      },
-      "message": "successfully created pet"
-    }
-
 ## Actualiza una Mascota por id
 
 ### Request
@@ -400,81 +506,7 @@
       "message": "successfully updated pet"
     }
 
-## Obtener todos los paises
 
-### Request
-
-`GET /countries/`
-
-    https://restapi-adoptame.up.railway.app/api/v1.0/countries/
-
-### Response
-
-    HTTP/1.1 200
-
-    [
-      {
-          "id": "ARG",
-          "name": "Argentina"
-      },
-      {
-          "id": "CHL",
-          "name": "Chile"
-      },
-      {
-          "id": "COL",
-          "name": "Colombia"
-      },
-      {
-          "id": "ECU",
-          "name": "Ecuador"
-      },
-      {
-          "id": "PER",
-          "name": "Peru"
-      }
-    ]
-
-## Obtener ciudades por pais
-
-### Request
-
-`GET /cities/{idCountry}`
-
-    https://restapi-adoptame.up.railway.app/api/v1.0/cities/{idCountry}
-
-### Response
-
-    HTTP/1.1 200
-
-    [
-      {
-          "id": 1,
-          "name": "28 de Noviembre",
-          "countryId": "ARG"
-      },
-      {
-          "id": 2,
-          "name": "Abasto",
-          "countryId": "ARG"
-      },
-      {
-          "id": 3,
-          "name": "Acassuso",
-          "countryId": "ARG"
-      },
-      {
-          "id": 4,
-          "name": "Acebal",
-          "countryId": "ARG"
-      },
-      {
-          "id": 5,
-          "name": "Acevedo",
-          "countryId": "ARG"
-      },
-      {...}
-    ]
 
 ## Obtener tipos de mascotas
 
@@ -497,47 +529,6 @@
           "id": "cat",
           "name": "cat"
       }
-    ]
-
-## Obtener razas de mascotas por id tipo de mascota
-
-### Request
-
-`GET /breed-pet/{idTipoMascota}`
-
-    https://restapi-adoptame.up.railway.app/api/v1.0/breed-pet/{idTipoMascota}
-
-### Response
-
-    HTTP/1.1 200
-
-    [
-      {
-          "id": 1,
-          "name": "affenpinscher",
-          "typeId": "dog"
-      },
-      {
-          "id": 2,
-          "name": "african",
-          "typeId": "dog"
-      },
-      {
-          "id": 3,
-          "name": "airedale",
-          "typeId": "dog"
-      },
-      {
-          "id": 4,
-          "name": "akita",
-          "typeId": "dog"
-      },
-      {
-          "id": 5,
-          "name": "appenzeller",
-          "typeId": "dog"
-      },
-      {...}
     ]
 
 ## Obtener tipos y razas de mascotas
@@ -577,6 +568,47 @@
           "id": 105,
           "name": "Balinese",
           "typeId": "cat"
+      },
+      {...}
+    ]
+
+## Obtener razas de mascotas por id tipo de mascota
+
+### Request
+
+`GET /breed-pet/{idTipoMascota}`
+
+    https://restapi-adoptame.up.railway.app/api/v1.0/breed-pet/{idTipoMascota}
+
+### Response
+
+    HTTP/1.1 200
+
+    [
+      {
+          "id": 1,
+          "name": "affenpinscher",
+          "typeId": "dog"
+      },
+      {
+          "id": 2,
+          "name": "african",
+          "typeId": "dog"
+      },
+      {
+          "id": 3,
+          "name": "airedale",
+          "typeId": "dog"
+      },
+      {
+          "id": 4,
+          "name": "akita",
+          "typeId": "dog"
+      },
+      {
+          "id": 5,
+          "name": "appenzeller",
+          "typeId": "dog"
       },
       {...}
     ]
@@ -745,7 +777,7 @@
 
 # envio de emails automatizado
 
-#### NT: solo el from, info y email son obligatorios, el resto es opcional (se puede dejar en blanco o directamente no poner los opcionales)
+NT: solo el from, info y email son obligatorios, el resto es opcional (se puede dejar en blanco o directamente no poner los opcionales)
 
 ## request
 
@@ -764,3 +796,5 @@
         "text": "texto del boton (este es opcional para el boton, si no se pone tendra por defecto 'click here')"
               }
     }
+
+#  
