@@ -104,12 +104,18 @@ User.belongsToMany(Pets, {
 });
 
 User.belongsToMany(User, {
-  through: Donations,
+  through: {
+    model: Donations,
+    unique: false
+  },
   as: "from",
-  foreignKey: "fromUserId"
+  foreignKey: "fromUserId",
 });
 User.belongsToMany(User, {
-  through: Donations,
+  through: {
+    model: Donations,
+    unique: false
+  },
   as: "to",
-  foreignKey: "toUserId"
+  foreignKey: "toUserId",
 });

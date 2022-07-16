@@ -2,6 +2,8 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/database.js';
 import { TypePet } from "./Typepet.js";
 import { BreedPet } from "./Breedpet.js";
+import { ColorPet } from '../models/Colorpet.js';
+import pet from '../database/pets.js';
 
 export const Pets = sequelize.define('pets', {
   id: {
@@ -16,22 +18,50 @@ export const Pets = sequelize.define('pets', {
       this.setDataValue('name', value.toLowerCase());
     }
   },
-  typeHair: {
+  age: {
     type: DataTypes.ENUM,
-    values: ['hairless', 'short', 'medium', 'long', 'wire', 'kinky'],
+    values: pet.ages,
+    allowNull: false,
   },
-  specialCares: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false
+  gender: {
+    type: DataTypes.ENUM,
+    values: pet.genders,
+    allowNull: false,
+  },
+  size: {
+    type: DataTypes.ENUM,
+    values: pet.sizes,
+    allowNull: false,
+  },
+  coat: {
+    type: DataTypes.ENUM,
+    values: pet.coats,
+  },
+  health: {
+    type: DataTypes.ENUM,
+    values: pet.healths,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  tags: {
+    type: DataTypes.ARRAY(DataTypes.ENUM(pet.tags)),
+    allowNull: false,
   },
   castrated: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
-  gender: {
-    type: DataTypes.ENUM,
-    values: ['male', 'female'],
-    allowNull: false,
+  attributes: {
+    type: DataTypes.JSONB,
+    get() {
+      return JSON.parse(this.getDataValue("attributes"));
+    },
+    set(value) {
+      this.setDataValue('attributes', value.toLowerCase());
+    }
   },
   environment: {
     type: DataTypes.JSONB,
@@ -42,50 +72,21 @@ export const Pets = sequelize.define('pets', {
       this.setDataValue('environment', value.toLowerCase());
     }
   },
-  tags: {
-    type: DataTypes.ARRAY(DataTypes.ENUM('friendly', 'affectionate', 'protective', 'smart', 'funny', 'quiet')),
-    allowNull: false,
-  },
-  size: {
+    photos: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      defaultValue: []
+    },
+  status: {
     type: DataTypes.ENUM,
-    values: ['small', 'medium', 'large', 'extra large'],
-    allowNull: false,
-  },
-  color: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    set(value) {
-      this.setDataValue('color', value.toLowerCase());
-    }
-  },
-  age: {
-    type: DataTypes.ENUM,
-    values: ['puppy', 'young', 'adult', 'senior'],
+    values: pet.status,
+    defaultValue: 'adoptable',
     allowNull: false,
   },
   published_at: {
-    type: DataTypes.DATEONLY,
+    type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW
   },
-  health: {
-    type: DataTypes.ENUM,
-    values: ['vaccinations up to date', 'no vaccines'],
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  photos: {
-    type: DataTypes.ARRAY(DataTypes.TEXT),
-    defaultValue: []
-  },
-  status: {
-    type: DataTypes.ENUM('adoptable', 'adopted'),
-    defaultValue: 'adoptable',
-    allowNull: false,
-  }
 }, {
   timestamps: false,
 })
@@ -96,5 +97,15 @@ Pets.belongsTo(BreedPet, {
 });
 Pets.belongsTo(TypePet, {
   foreignKey: "typeId",
+  targetId: "id",
+});
+
+ColorPet.hasMany(Pets, {
+  foreignKey: "colorId",
+  sourceKey: "id",
+});
+
+Pets.belongsTo(ColorPet, {
+  foreignKey: "colorId",
   targetId: "id",
 });

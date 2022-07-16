@@ -2,7 +2,9 @@ import axios from 'axios';
 import "dotenv/config";
 
 const {
-  ACCESS_TOKEN,
+  MERCADOPAGO_ACCESS_TOKEN,
+  ULR_DEPLOYED_FRONTEND,
+  URL_DEPLOYED_BACKEND
 } = process.env;
 
 export const newPreferentialPaymentService = async (dataBody) => {
@@ -51,13 +53,13 @@ export const newPreferentialPaymentService = async (dataBody) => {
     auto_return: "all", // solo a pagos aprovados
     back_urls: {
       // success: "http://localhost:5000/api/v1.0/donations/success",
-      success: "https://pf-front-git-route-emiandd.vercel.app/",
-      failure: "https://pf-front-git-route-emiandd.vercel.app/sponsor",
+      success: `${ULR_DEPLOYED_FRONTEND}/`,
+      failure: `${ULR_DEPLOYED_FRONTEND}/sponsor`,
       pending: "http://www.pending.com"
     },
     metadata,
     // notification_url: "https://api-rest-adoptame.up.railway.app/api/v1.0/pets/notif?source_news=webhooks",
-    notification_url: "https://api-rest-adoptame.up.railway.app/api/v1.0/donations?source_news=webhooks"
+    notification_url: `${URL_DEPLOYED_BACKEND}/donations?source_news=webhooks`
     /*     metadata: {
           fromUser: {
             country: "PER"
@@ -74,7 +76,7 @@ export const newPreferentialPaymentService = async (dataBody) => {
   const { data } = await axios.post(url, body, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${ACCESS_TOKEN}`
+      Authorization: `Bearer ${MERCADOPAGO_ACCESS_TOKEN}`
     }
   });
 
@@ -87,7 +89,7 @@ export const getPaymentByIdService = async (idPaymet) => {
 
   const payments = await axios.get(url, {
     headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`
+      Authorization: `Bearer ${MERCADOPAGO_ACCESS_TOKEN}`
     }
   });
 

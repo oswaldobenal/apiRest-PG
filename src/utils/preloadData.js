@@ -4,10 +4,15 @@ import { data } from "../database/countries.js";
 import { TypePet } from "../models/Typepet.js";
 import { BreedPet } from "../models/Breedpet.js";
 import { typesPets } from "../database/typePets.js";
+import { ColorPet } from "../models/Colorpet.js";
+import { Pets } from "../models/Pets.js";
+import { User } from '../models/User.js';
+import pet from "../database/pets.js";
+import { generateDataPets } from '../helpers/generateData.js';
 import { organizations } from "../database/fundations.js";
-import { User } from "../models/User.js";
 import { encrypt, compare } from "../helpers/handleBcrypt.js";
 import { users } from "../database/precargaUsers.js";
+
 
 export const preloadCountrys = async () => {
   try {
@@ -50,6 +55,42 @@ export const preloadTypesPets = async () => {
         });
       }
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const preloadColorsPets = async () => {
+  try {
+    for (let i = 0; i < pet.cat.colors.length; i++) {
+      await ColorPet.findOrCreate({
+        where: {
+          nameColor: pet.cat.colors[i],
+          typeId: pet.cat.type,
+        },
+      });
+    }
+    for (let i = 0; i < pet.dog.colors.length; i++) {
+      await ColorPet.findOrCreate({
+        where: {
+          nameColor: pet.dog.colors[i],
+          typeId: pet.dog.type,
+        },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const preloadPets = async (results) => {
+  try {
+    let responseIds = await User.findAll({
+      attributes: ['id'],
+      raw: true
+    });
+    const ids = responseIds.map(user => user.id);
+    await Pets.bulkCreate(await generateDataPets(results, ids));
   } catch (error) {
     console.log(error);
   }
