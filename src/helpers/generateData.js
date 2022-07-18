@@ -101,7 +101,6 @@ export const generateDataPets = async (results, ids) => {
       attributes: JSON.stringify(faker.helpers.arrayElement([{
         house_trained: faker.helpers.arrayElement([true, false, null]),
         special_needs: faker.helpers.arrayElement([true, false, null]),
-        cats: faker.helpers.arrayElement([true, false, null]),
       }])),
       environment: JSON.stringify(faker.helpers.arrayElement([{
         children: faker.helpers.arrayElement([true, false, null]),
