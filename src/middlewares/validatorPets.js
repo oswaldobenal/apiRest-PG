@@ -7,15 +7,15 @@ export default [
     .trim()
     .notEmpty().withMessage('Pet name can not be empty!'),
   check('coat')
-    .isIn(pets.coats),
+    .isIn(pets[0].coats),
   check('tags')
-    .isIn(pets.tags),
+    .isIn(pets[0].tags),
   check('size')
-    .isIn(pets.sizes),
+    .isIn(pets[0].sizes),
   check('age')
-    .isIn(pets.ages),
+    .isIn(pets[0].ages),
   check('health')
-    .isIn(pets.healths),
+    .isIn(pets[0].healths),
   check('description')
     .trim()
     .notEmpty().withMessage('Pet description can not be empty!'),
