@@ -6,6 +6,8 @@ import { ColorPet } from '../models/Colorpet.js';
 import { deleteFile } from '../middlewares/cloudinary.js';
 import { findAllPets, findByPkPets } from '../models/Views/pets.views.js';
 import { favouritePetsByUser } from '../controllers/favouriteController.js';
+import { faker } from '@faker-js/faker';
+import axios from 'axios';
 
 export const getPetsById = async (req, res) => {
   // #swagger.tags = ['PETS']
@@ -124,14 +126,22 @@ export const createPets = async (req, res) => {
     const breed = await BreedPet.findByPk(breedId);
     const color = await ColorPet.findByPk(colorId);
 
-    if (user) {
-      console.log('attributes: ', attributes);
-      console.log('environment: ', environment);
-      let attributes_ = typeof attributes === 'object' ? JSON.stringify(attributes) : attributes
-      let environment_ = typeof environment === 'object' ? JSON.stringify(environment) : environment
-      console.log(attributes_);
-      console.log(environment_);
+    // Traer imagenes random
+    let resultPhotos = faker.datatype.number({ min: 1, max: 5 });
+    let photosCats = [];
+    for (let index = 0; index < resultPhotos; index++) {
+      photosCats.push(faker.image.cats());
+    }
 
+    let photosDogs = [];
+    for (let index = 0; index < resultPhotos; index++) {
+      let { data } = await axios.get('https://dog.ceo/api/breeds/image/random');
+      let urlImageDog = await data.message;
+      photosDogs.push(urlImageDog);
+    }
+    const imagenes_genericas = faker.helpers.arrayElements(type.id === 'gato' ? photosCats : photosDogs, resultPhotos);
+
+    if (user) {
       const newPet = await Pets.create({
         name,
         age,
@@ -144,7 +154,7 @@ export const createPets = async (req, res) => {
         castrated: typeof castrated === "boolean" ? castrated : castrated == "true",
         attributes: typeof attributes === 'object' ? JSON.stringify(attributes) : attributes,
         environment: typeof environment === 'object' ? JSON.stringify(environment) : environment,
-        photos: images,
+        photos: imagenes_genericas,
       });
 
       // dependencies
