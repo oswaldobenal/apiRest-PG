@@ -53,7 +53,7 @@ export const newPreferentialPaymentService = async (dataBody) => {
     auto_return: "all", // solo a pagos aprovados
     back_urls: {
       // success: "http://localhost:5000/api/v1.0/donations/success",
-      success: `${ULR_DEPLOYED_FRONTEND}/`,
+      success: `${ULR_DEPLOYED_FRONTEND}/sponsor/confirm`,
       failure: `${ULR_DEPLOYED_FRONTEND}/sponsor`,
       pending: "http://www.pending.com"
     },
