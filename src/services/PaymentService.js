@@ -59,7 +59,7 @@ export const newPreferentialPaymentService = async (dataBody) => {
     },
     metadata,
     // notification_url: "https://api-rest-adoptame.up.railway.app/api/v1.0/pets/notif?source_news=webhooks",
-    notification_url: `${URL_DEPLOYED_BACKEND}/donations?source_news=webhooks`
+    notification_url: `${URL_DEPLOYED_BACKEND}/api/v1.0/donations?source_news=webhooks`
     /*     metadata: {
           fromUser: {
             country: "PER"
