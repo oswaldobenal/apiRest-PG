@@ -20,26 +20,26 @@ export const Pets = sequelize.define('pets', {
   },
   age: {
     type: DataTypes.ENUM,
-    values: pet.ages,
+    values: pet[0].ages,
     allowNull: false,
   },
   gender: {
     type: DataTypes.ENUM,
-    values: pet.genders,
+    values: pet[0].genders,
     allowNull: false,
   },
   size: {
     type: DataTypes.ENUM,
-    values: pet.sizes,
+    values: pet[0].sizes,
     allowNull: false,
   },
   coat: {
     type: DataTypes.ENUM,
-    values: pet.coats,
+    values: pet[0].coats,
   },
   health: {
     type: DataTypes.ENUM,
-    values: pet.healths,
+    values: pet[0].healths,
     allowNull: false,
   },
   description: {
@@ -47,7 +47,7 @@ export const Pets = sequelize.define('pets', {
     allowNull: false,
   },
   tags: {
-    type: DataTypes.ARRAY(DataTypes.ENUM(pet.tags)),
+    type: DataTypes.ARRAY(DataTypes.ENUM(pet[0].tags)),
     allowNull: false,
   },
   castrated: {
@@ -78,7 +78,7 @@ export const Pets = sequelize.define('pets', {
     },
   status: {
     type: DataTypes.ENUM,
-    values: pet.status,
+    values: pet[0].status,
     defaultValue: 'adoptable',
     allowNull: false,
   },

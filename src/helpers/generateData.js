@@ -90,13 +90,13 @@ export const generateDataPets = async (results, ids) => {
       typeId: type,
       breedId: (type === 'perro') ? faker.datatype.number({ min: 1, max: 96 }) : faker.datatype.number({ min: 96, max: 163 }),
       colorId: (type === 'perro') ? faker.datatype.number({ min: 30, max: 44 }) : faker.datatype.number({ min: 1, max: 29 }),
-      age: faker.helpers.arrayElement(pets.ages),
+      age: faker.helpers.arrayElement(pets[0].ages),
       gender: genders,
-      size: faker.helpers.arrayElement(pets.sizes),
-      coat: faker.helpers.arrayElement(pets.coats),
-      health: faker.helpers.arrayElement(pets.healths),
+      size: faker.helpers.arrayElement(pets[0].sizes),
+      coat: faker.helpers.arrayElement(pets[0].coats),
+      health: faker.helpers.arrayElement(pets[0].healths),
       description: faker.lorem.paragraphs(),
-      tags: faker.helpers.arrayElements(pets.tags, faker.datatype.number({ min: 1, max: 6 })),
+      tags: faker.helpers.arrayElements(pets[0].tags, faker.datatype.number({ min: 1, max: 6 })),
       castrated: faker.helpers.arrayElement([true, false]),
       attributes: JSON.stringify(faker.helpers.arrayElement([{
         house_trained: faker.helpers.arrayElement([true, false, null]),
@@ -108,7 +108,7 @@ export const generateDataPets = async (results, ids) => {
         dogs: faker.helpers.arrayElement([true, false, null]),
         cats: faker.helpers.arrayElement([true, false, null]),
       }])),
-      status: faker.helpers.arrayElement(pets.status),
+      status: faker.helpers.arrayElement(pets[0].status),
       photos: faker.helpers.arrayElements(type === 'gato' ? photosCats : photosDogs, resultPhotos),
     };
   }

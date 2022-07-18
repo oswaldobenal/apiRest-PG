@@ -1,52 +1,8 @@
 import { UserPetsFavourite } from '../models/FavouritePet.js';
-import { User } from '../models/User.js';
-import { Pets } from '../models/Pets.js';
-import { TypePet } from '../models/Typepet.js';
-import { BreedPet } from '../models/Breedpet.js';
-import { City } from '../models/City.js';
+import { findAllPets, findByPkPets } from '../models/Views/pets.views.js';
 
-const findByPkPets = async (id) => {
-  const pet = await Pets.findByPk(id, {
-    attributes: { exclude: ['breedId', 'typeId'] },
-    include: [
-      {
-        model: TypePet,
-        attributes: ['nameType'],
-      },
-      {
-        model: BreedPet,
-        attributes: ['nameBreed'],
-      },
-      {
-        model: User,
-        attributes: ['address'],
-        include: [
-          {
-            model: City,
-            attributes: ['name'],
-          }
-        ]
-      }
-    ],
-    raw: true,
-  });
-  pet.environment = JSON.parse(pet.environment)
-  pet['type'] = pet["typepet.nameType"];
-  pet['breed'] = pet["breedpet.nameBreed"];
-  pet['city'] = pet["user.city.name"];
-  pet['address'] = pet["user.address"];
-  delete pet["typepet.nameType"];
-  delete pet['breedpet.nameBreed'];
-  delete pet["user.city.id"];
-  delete pet["user.city.name"];
-  delete pet['user.address'];
-  return pet;
-}
-
-export const getFavouritePetsByUser = async (req, res) => {
-  // #swagger.tags = ['PETS/FAVOURITE']
+export const favouritePetsByUser = async (userId) => {
   try {
-    const { userId } = req.params;
     if (userId) {
       const petsFavorites = await UserPetsFavourite.findAll({
         where: {
@@ -55,8 +11,20 @@ export const getFavouritePetsByUser = async (req, res) => {
       });
       const detailPet = petsFavorites.map(userPet => findByPkPets(userPet.petId));
       const favoritePetsUser = await Promise.all(detailPet);
-      return res.status(200).json(favoritePetsUser)
+      return favoritePetsUser
     }
+  } catch (error) {
+    console.log(error);
+    return []
+  }
+}
+
+export const getFavouritePetsByUser = async (req, res) => {
+  // #swagger.tags = ['PETS/FAVOURITE']
+  try {
+    const { userId } = req.params;
+    const myFavouritePets = await favouritePetsByUser(userId);
+    return res.status(200).json(myFavouritePets)
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }

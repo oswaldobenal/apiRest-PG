@@ -3,7 +3,6 @@ import { City } from "../models/City.js";
 import { data } from "../database/countries.js";
 import { TypePet } from "../models/Typepet.js";
 import { BreedPet } from "../models/Breedpet.js";
-import { typesPets } from "../database/typePets.js";
 import { ColorPet } from "../models/Colorpet.js";
 import { Pets } from "../models/Pets.js";
 import { User } from '../models/User.js';
@@ -41,18 +40,18 @@ export const preloadCountrys = async () => {
 
 export const preloadTypesPets = async () => {
   try {
-    for (let i = 0; i < typesPets.length; i++) {
+    for (let i = 0; i < pet.length; i++) {
       await TypePet.findOrCreate({
         where: {
-          id: typesPets[i].type,
-          nameType: typesPets[i].type
+          id: pet[i].type,
+          nameType: pet[i].type
         },
       });
-      for (let j = 0; j < typesPets[i].breeds.length; j++) {
+      for (let j = 0; j < pet[i].breeds.length; j++) {
         await BreedPet.findOrCreate({
           where: {
-            typeId: typesPets[i].type,
-            nameBreed: typesPets[i].breeds[j],
+            typeId: pet[i].type,
+            nameBreed: pet[i].breeds[j],
           },
         });
       }
@@ -64,19 +63,19 @@ export const preloadTypesPets = async () => {
 
 export const preloadColorsPets = async () => {
   try {
-    for (let i = 0; i < pet.cat.colors.length; i++) {
+    for (let i = 0; i < pet[0].colors.length; i++) {
       await ColorPet.findOrCreate({
         where: {
-          nameColor: pet.cat.colors[i],
-          typeId: pet.cat.type,
+          nameColor: pet[0].colors[i],
+          typeId: pet[0].type,
         },
       });
     }
-    for (let i = 0; i < pet.dog.colors.length; i++) {
+    for (let i = 0; i < pet[1].colors.length; i++) {
       await ColorPet.findOrCreate({
         where: {
-          nameColor: pet.dog.colors[i],
-          typeId: pet.dog.type,
+          nameColor: pet[1].colors[i],
+          typeId: pet[1].type,
         },
       });
     }
