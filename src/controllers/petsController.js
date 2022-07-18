@@ -5,6 +5,7 @@ import { BreedPet } from '../models/Breedpet.js';
 import { ColorPet } from '../models/Colorpet.js';
 import { deleteFile } from '../middlewares/cloudinary.js';
 import { findAllPets, findByPkPets } from '../models/Views/pets.views.js';
+import { favouritePetsByUser } from '../controllers/favouriteController.js';
 
 export const getPetsById = async (req, res) => {
   // #swagger.tags = ['PETS']
@@ -24,17 +25,33 @@ export const getPetsById = async (req, res) => {
 export const getAllPets = async (req, res) => {
   // #swagger.tags = ['PETS']
   try {
-    const { name } = req.query;
+    const { userId } = req.query;
 
-    if (name === '') {
+    if (userId) {
       const allPets = await findAllPets();
-      return res.status(200).json(allPets);
-    }
+      const favouritePetsbyUser = await favouritePetsByUser(userId);
 
-    if (name) {
-      const allPets = await findAllPets();
-      const petByName = allPets.filter(pet => pet.name.toLowerCase().indexOf(name.toLowerCase()) > -1)
-      return res.status(200).json(petByName);
+      const mergeAllAndFavouritePets = [
+        ...allPets,
+        ...favouritePetsbyUser
+      ]
+
+      const set = new Set()
+      const uniquePets = mergeAllAndFavouritePets.filter(pet => {
+        const alreadyHas = set.has(pet.id)
+        set.add(pet.id)
+        return !alreadyHas
+      })
+
+      const idFavourites = favouritePetsbyUser.map(pet => pet.id)
+
+      const allAndFavouritePets = uniquePets.map(pet => {
+        if (idFavourites.includes(pet.id)) {
+          pet.isFavourite = true
+        }
+        return pet
+      })
+      return res.status(200).json(allAndFavouritePets);
     }
     const allPets = await findAllPets();
     return res.status(200).json(allPets);

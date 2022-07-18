@@ -1,13 +1,13 @@
 import "dotenv/config";
 import swaggerAutogen from 'swagger-autogen';
-let { NODE_ENV } = process.env;
+let { NODE_ENV, URL_DEPLOYED_BACKEND } = process.env;
 const doc = {
   info: {
     title: 'Api Rest Adoptame',
     description: 'Documentación_',
   },
   host: NODE_ENV === 'production'
-    ? 'api-rest-adoptame.up.railway.app'
+    ? URL_DEPLOYED_BACKEND.replace('https://', '')
     : 'localhost:5000',
   schemes: [NODE_ENV === 'production' ? 'https' : 'http'],
 };

@@ -17,6 +17,7 @@ import cities from "./cities.routes.js";
 import auth from "./auth.routes.js";
 import typePet from "./typePet.routes.js";
 import breedPet from "./breedPet.routes.js";
+import colorPet from "./colorsPet.routes.js";
 import donation from "./donation.routes.js";
 import fundation from "./fundation.routes.js";
 
@@ -35,6 +36,7 @@ router.use('/auth', auth);
 
 router.use("/type-pet", typePet);
 router.use("/breed-pet", breedPet);
+router.use("/color-pet", colorPet);
 
 router.use('/addPets', petsDataFake);
 

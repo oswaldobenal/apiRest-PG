@@ -12,9 +12,6 @@ export default [
     .isIn(pets.tags),
   check('size')
     .isIn(pets.sizes),
-  check('color')
-    .trim()
-    .notEmpty().withMessage('Pet color can not be empty!'),
   check('age')
     .isIn(pets.ages),
   check('health')

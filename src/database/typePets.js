@@ -98,7 +98,7 @@ export const typesPets = [
       'weimaraner',
       'whippet',
       'wolfhound'
-    ]
+    ],
   },
   {
     type: "gato",

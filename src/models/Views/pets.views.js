@@ -81,6 +81,8 @@ export const findAllPets = async () => {
 
     delete pet["user.country.id"];
     delete pet["user.country.name"];
+    delete pet["user.country.currency"];
+    delete pet["user.country.symbol"];
 
     delete pet["user.countryId"];
     delete pet["user.role"];
